@@ -1,60 +1,40 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./Add.css";
 
 export default function Signup({ createLocation }) {
   const [fullName, setFullName] = useState("");
-  const [img, setImg] = useState("");
-  const [activities, setActivities] = useState("");
-  const [description, setDescription] = useState("");
-  const [budgetStyle, setBudgetStyle] = useState(1);
-  const [food, setFood] = useState("");
-  const [coordinates, setCoordinates] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
 
-  const handleNameChange = (e) => setName(e.target.value);
-  const handleTypeChange = (e) => setType(e.target.value);
-  const handleImgChange = (e) => setImg(e.target.value);
-  const handleActivitiesChange = (e) => setActivities(e.target.value);
-  const handleDescriptionChange = (e) => setDescription(e.target.value);
-  const handleBudgetStyleChange = (e) => setBudgetStyle(e.target.value);
-  const handleFoodChange = (e) => setFood(e.target.value);
-  const handleCoordinatesChange = (e) => setCoordinates(e.target.value);
+  const handlefullName = (e) => setName(e.target.value);
+  const handleEmail = (e) => setType(e.target.value);
+  const handlePassword = (e) => setImg(e.target.value);
 
-  const handleSubmit = (e) => {
+  const handleSignUp = (e) => {
     e.preventDefault();
-    if (!name || !type || !description || !coordinates) {
+    if (!fullName || !email || !password) {
       alert("Please fill in all fields");
       return;
     }
 
-    const newLocation = {
-      name,
-      type,
-      img,
-      activities,
-      description,
-      budgetStyle,
-      food,
-      coordinates,
+    const newUser = {
+      fullName,
+      email,
+      password,
     };
 
     axios
-      .post("https://roamio.adaptable.app/locations", newLocation)
+      .post("https://openslot-server.adaptable.app/auth/signup", newUser)
       .then(function (response) {
-        createLocation(response.data);
+        createUser(response.data);
 
-        setName("");
-        setType("");
-        setImg("");
-        setActivities("");
-        setDescription("");
-        setBudgetStyle("");
-        setFood("");
-        setCoordinates("");
-        navigate("/");
+        setfullName("");
+        setEmail("");
+        setPassword("");
+        navigate("/login");
       })
       .catch(function (error) {
         console.log(error);
@@ -63,7 +43,7 @@ export default function Signup({ createLocation }) {
 
   return (
     <div>
-      <h1 className="page-heading">Register your company!</h1>
+      <h1 className="page-heading">Signup</h1>
       <div>
         <form className="add-form">
           <div className="add-row">
@@ -71,21 +51,15 @@ export default function Signup({ createLocation }) {
             <input
               type="text"
               name="name"
-              value={name}
-              onChange={handleNameChange}
+              value={fullName}
+              onChange={handleName}
             />
           </div>
           <div className="add-row">
             <label>Type:</label>
-            <select value={type} onChange={handleTypeChange}>
-              <option value="mountains">Mountains</option>
-              <option value="desert">Desert</option>
-              <option value="rural">Rural</option>
-              <option value="urban">Urban</option>
-              <option value="beach">Beach</option>
-            </select>
+            <input type="text" value={email} onChange={handleEmail} />
           </div>
-          <div className="add-row">
+          {/*<div className="add-row">
             <label>Image URL:</label>
             <input
               type="text"
@@ -93,7 +67,7 @@ export default function Signup({ createLocation }) {
               value={img}
               onChange={handleImgChange}
             />
-          </div>
+          </div>*/}
           <div className="add-row">
             <label>Activities:</label>
             <textarea
