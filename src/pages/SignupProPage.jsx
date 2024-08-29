@@ -27,7 +27,7 @@ export default function Signup({ createUser }) {
     };
 
     axios
-      .post("https://roamio.adaptable.app/locations", newUser)
+      .post("https://roamio.adaptable.app/auth/signup", newUser)
       .then(function (response) {
         createUser(response.data);
 

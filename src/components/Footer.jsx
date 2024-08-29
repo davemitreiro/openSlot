@@ -1,6 +1,7 @@
 export default function Footer() {
   return (
     <footer className="Footer">
+      <p>Contact Us</p>
       {/*<a
         className=""
         href=""

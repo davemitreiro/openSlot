@@ -9,7 +9,7 @@ export default function Signup({ createLocation }) {
 
   const navigate = useNavigate();
 
-  const handlefullName = (e) => setName(e.target.value);
+  const handleName = (e) => setName(e.target.value);
   const handleEmail = (e) => setType(e.target.value);
   const handlePassword = (e) => setImg(e.target.value);
 
@@ -70,55 +70,16 @@ export default function Signup({ createLocation }) {
           </div>*/}
           <div className="add-row">
             <label>Activities:</label>
-            <textarea
-              rows="4"
-              cols="40"
+            <input
               type="text"
               name="activities"
-              value={activities}
-              onChange={handleActivitiesChange}
-            />
-          </div>
-          <div className="add-row">
-            <label>Description:</label>
-            <textarea
-              rows="4"
-              cols="40"
-              name="description"
-              value={description}
-              onChange={handleDescriptionChange}
-            />
-          </div>
-          <div className="add-row">
-            <label>Budget Style:</label>
-            <select value={budgetStyle} onChange={handleBudgetStyleChange}>
-              <option value="1">$</option>
-              <option value="2">$$</option>
-              <option value="3">$$$</option>
-              <option value="4">$$$$</option>
-            </select>
-          </div>
-          <div className="add-row">
-            <label>Local Food:</label>
-            <input
-              type="text"
-              name="food"
-              value={food}
-              onChange={handleFoodChange}
-            />
-          </div>
-          <div className="add-row">
-            <label>Coordinates:</label>
-            <input
-              type="text"
-              name="coordinates"
-              value={coordinates}
-              onChange={handleCoordinatesChange}
+              value={password}
+              onChange={handlePassword}
             />
           </div>
           <div>
-            <button type="submit" onClick={handleSubmit}>
-              Submit
+            <button type="submit" onClick={handleSignUp}>
+              Sign UP
             </button>
           </div>
         </form>

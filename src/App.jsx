@@ -3,6 +3,10 @@ import { Routes, Route } from "react-router-dom";
 import axios from "axios";
 import "./App.css"; //default css to delete
 
+//impor components
+import NavBar from "./components/Navbar";
+import Footer from "./components/Footer";
+
 //import pages
 import SignupProPage from "./pages/SignupProPage";
 import SignupUserPage from "./pages/SignupUserPage";
@@ -14,6 +18,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 function App() {
   return (
     <>
+      <NavBar />
       <Routes>
         <Route path="/homepage" element={<Homepage />}></Route>
         <Route
@@ -26,6 +31,7 @@ function App() {
 
         <Route path="/notfound" element={<NotFoundPage />} />
       </Routes>
+      <Footer />
     </>
   );
 }
