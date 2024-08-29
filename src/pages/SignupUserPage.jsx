@@ -9,7 +9,7 @@ export default function Signup({ createLocation }) {
 
   const navigate = useNavigate();
 
-  const handleName = (e) => setName(e.target.value);
+  const handleName = (e) => setfullName(e.target.value);
   const handleEmail = (e) => setType(e.target.value);
   const handlePassword = (e) => setImg(e.target.value);
 

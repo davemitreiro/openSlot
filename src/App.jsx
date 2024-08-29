@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import axios from "axios";
 import "./App.css"; //default css to delete
+import AboutUsPage from "./pages/AboutUsPage";
 
 //impor components
 import NavBar from "./components/Navbar";
@@ -14,6 +15,7 @@ import Homepage from "./pages/Homepage";
 import DashboardPage from "./pages/DashboardPage";
 import DetailsPage from "./pages/DetailsPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import AboutUs from "./pages/AboutUsPage";
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
           element={<SignupProPage createPro={SignupProPage} />}
         />
         <Route path="/login" element={<DashboardPage />} />
+
+        <Route path="/about" element={<AboutUsPage />} />
 
         <Route path="/details" element={<DetailsPage />} />
 
