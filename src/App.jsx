@@ -22,10 +22,14 @@ function App() {
     <>
       <NavBar />
       <Routes>
-        <Route path="/homepage" element={<Homepage />}></Route>
+        <Route path="/" element={<Homepage />}></Route>
         <Route
-          path="/signup"
+          path="/signup-pro"
           element={<SignupProPage createPro={SignupProPage} />}
+        />
+        <Route
+          path="/signup-user"
+          element={<SignupUserPage createUser={SignupUserPage} />}
         />
         <Route path="/login" element={<DashboardPage />} />
 
