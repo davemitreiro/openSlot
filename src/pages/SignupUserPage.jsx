@@ -2,16 +2,18 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export default function Signup({ createLocation }) {
+const API_URL = "https://openslot-server.adaptable.app";
+
+export default function Signup({ createUser }) {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
 
-  const handleName = (e) => setfullName(e.target.value);
-  const handleEmail = (e) => setType(e.target.value);
-  const handlePassword = (e) => setImg(e.target.value);
+  const handlefullName = (e) => setFullName(e.target.value);
+  const handleEmail = (e) => setEmail(e.target.value);
+  const handlePassword = (e) => setPassword(e.target.value);
 
   const handleSignUp = (e) => {
     e.preventDefault();
@@ -21,65 +23,60 @@ export default function Signup({ createLocation }) {
     }
 
     const newUser = {
-      fullName,
-      email,
-      password,
+      role: "user",
+      data: {
+        email,
+        password,
+      },
     };
 
     axios
-      .post("https://openslot-server.adaptable.app/auth/signup", newUser)
+      .post(`${API_URL}/auth/signup`, newUser)
       .then(function (response) {
         createUser(response.data);
+        console.log(response);
 
-        setfullName("");
+        setFullName("");
         setEmail("");
         setPassword("");
-        navigate("/login");
       })
       .catch(function (error) {
         console.log(error);
       });
+    navigate("/");
   };
 
   return (
     <div>
-      <h1 className="page-heading">Signup</h1>
+      <h1 className="page-heading">Sign Up</h1>
       <div>
         <form className="add-form">
           <div className="add-row">
-            <label>Name:</label>
+            <label>User name:</label>
             <input
               type="text"
               name="name"
               value={fullName}
-              onChange={handleName}
+              onChange={handlefullName}
             />
           </div>
           <div className="add-row">
-            <label>Type:</label>
-            <input type="text" value={email} onChange={handleEmail} />
+            <label>Email</label>
+            <input type="text" onChange={handleEmail} value={email} />
           </div>
-          {/*<div className="add-row">
-            <label>Image URL:</label>
-            <input
-              type="text"
-              name="img"
-              value={img}
-              onChange={handleImgChange}
-            />
-          </div>*/}
           <div className="add-row">
-            <label>Activities:</label>
-            <input
+            <label>Password:</label>
+            <textarea
+              cols="40"
               type="text"
-              name="activities"
               value={password}
               onChange={handlePassword}
             />
           </div>
+
           <div>
             <button type="submit" onClick={handleSignUp}>
-              Sign UP
+              Sign Up
             </button>
           </div>
         </form>
