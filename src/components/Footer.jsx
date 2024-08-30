@@ -1,20 +1,17 @@
 import { useNavigate } from "react-router-dom";
+import "./Footer.css";
 
 export default function Footer() {
   const navigate = useNavigate();
 
   return (
-    <footer className="Footer">
-      <button onClick={() => navigate("/about")} className="navbar-button">
+    <footer className="footer">
+      <button onClick={() => navigate("/about")} className="footer-button">
         Contact Us
       </button>
-      {/*<a
-        className=""
-        href=""
-        img={""}
-        src={}
-        alt="text-logo"
-      >GitHub</a>*/}
+      <a href="https://github.com/davemitreiro/openSlot" target="_blank">
+        <button className="footer-button">GitHub page</button>
+      </a>
     </footer>
   );
 }
