@@ -1,3 +1,1 @@
-export default function Login(){
-    
-}
+export default function Login() {}
