@@ -7,6 +7,7 @@ import AboutUsPage from "./pages/AboutUsPage";
 //impor components
 import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
+import LoginPage from "./pages/LoginPage";
 
 //import pages
 import SignupProPage from "./pages/SignupProPage";
@@ -31,7 +32,7 @@ function App() {
           path="/signup-user"
           element={<SignupUserPage createUser={SignupUserPage} />}
         />
-        <Route path="/login" element={<DashboardPage />} />
+        <Route path="/login" element={<LoginPage />} />
 
         <Route path="/about" element={<AboutUsPage />} />
 
