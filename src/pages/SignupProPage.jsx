@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const API_URL = "https://openslot-server.adaptable.app";
+//const API_URL = "https://openslot-server.adaptable.app";
+const API_URL = "http://localhost:5005";
 
 export default function Signup({ createUser }) {
   const [fullName, setFullName] = useState("");

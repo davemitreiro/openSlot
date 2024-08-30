@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const API_URL = "https://openslot-server.adaptable.app";
+//const API_URL = "https://openslot-server.adaptable.app";
+const API_URL = "http://localhost:5005";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -29,7 +30,7 @@ export default function Login() {
       .post(`${API_URL}/auth/login`, userCredentials)
       .then((response) => {
         // Save token or user data in localStorage or context
-        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("token", response.data.authToken);
 
         console.log("Login successful:", response);
         navigate("/dashboard"); // Navigate to a different page on successful login
