@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import axios from "axios";
-import "./App.css"; //default css to delete
+
 import AboutUsPage from "./pages/AboutUsPage";
+import "./index.css";
 
 //impor components
 import NavBar from "./components/Navbar";
