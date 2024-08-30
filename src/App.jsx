@@ -5,9 +5,10 @@ import axios from "axios";
 import AboutUsPage from "./pages/AboutUsPage";
 import "./index.css";
 
-//impor components
+//import components
 import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Calendar from "./components/Calendar";
 
 //import pages
 import SignupProPage from "./pages/SignupProPage";
@@ -28,7 +29,7 @@ function App() {
           path="/signup"
           element={<SignupProPage createPro={SignupProPage} />}
         />
-        <Route path="/login" element={<DashboardPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
 
         <Route path="/about" element={<AboutUsPage />} />
 
