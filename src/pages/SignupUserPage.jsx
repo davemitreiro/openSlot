@@ -47,7 +47,7 @@ export default function Signup({ createUser }) {
   };
 
   return (
-    <div>
+    <div style={{ marginTop: "100px" }}>
       <h1 className="page-heading">Sign Up</h1>
       <div>
         <form className="add-form">

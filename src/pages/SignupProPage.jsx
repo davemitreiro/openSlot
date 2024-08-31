@@ -44,11 +44,11 @@ export default function Signup({ createUser }) {
       .catch(function (error) {
         console.log(error);
       });
-    navigate("/");
+    navigate("/dashboard");
   };
 
   return (
-    <div>
+    <div style={{ marginTop: "100px" }}>
       <h1 className="page-heading">Sign Up</h1>
       <div>
         <form className="add-form">

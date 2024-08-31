@@ -42,7 +42,7 @@ export default function Login() {
   };
 
   return (
-    <div>
+    <div style={{ marginTop: "100px" }}>
       <h1 className="page-heading">Login</h1>
       <div>
         <form className="login-form">
