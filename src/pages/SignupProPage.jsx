@@ -2,28 +2,28 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-//const API_URL = "https://openslot-server.adaptable.app";
+// const API_URL = "https://openslot-server.adaptable.app";
 const API_URL = "http://localhost:5005";
 
-export default function Signup({ createUser }) {
-  const [fullName, setFullName] = useState("");
+export default function Signup({ createPro }) {
+  const [companyName, setCompanyName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
 
-  const handlefullName = (e) => setFullName(e.target.value);
+  const handleCompanyName = (e) => setCompanyName(e.target.value);
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
 
   const handleSignUp = (e) => {
     e.preventDefault();
-    if (!fullName || !email || !password) {
+    if (!companyName || !email || !password) {
       alert("Please fill in all fields");
       return;
     }
 
-    const newUser = {
+    const newPro = {
       role: "pro",
       data: {
         email,
@@ -32,53 +32,49 @@ export default function Signup({ createUser }) {
     };
 
     axios
-      .post(`${API_URL}/auth/signup`, newUser)
+      .post(`${API_URL}/auth/signup`, newPro)
       .then(function (response) {
-        createUser(response.data);
+        createPro(response.data);
         console.log(response);
 
-        setFullName("");
+        // Reset the form fields
+        setCompanyName("");
         setEmail("");
         setPassword("");
+
+        // Navigate to the home page after successful signup
+        navigate("/");
       })
       .catch(function (error) {
         console.log(error);
       });
-    navigate("/");
   };
 
   return (
-    <div div style={{ marginTop: "200px" }}>
+    <div style={{ marginTop: "200px" }}>
       <h1 className="page-heading">Sign Up</h1>
       <div>
-        <form className="add-form">
+        <form className="add-form" onSubmit={handleSignUp}>
           <div className="add-row">
             <label>Company/Business or your name:</label>
             <input
               type="text"
               name="name"
-              value={fullName}
-              onChange={handlefullName}
+              value={companyName}
+              onChange={handleCompanyName}
             />
           </div>
           <div className="add-row">
             <label>Email</label>
-            <input type="text" onChange={handleEmail} value={email} />
+            <input type="email" onChange={handleEmail} value={email} />
           </div>
           <div className="add-row">
             <label>Password:</label>
-            <textarea
-              cols="40"
-              type="text"
-              value={password}
-              onChange={handlePassword}
-            />
+            <input type="password" value={password} onChange={handlePassword} />
           </div>
 
           <div>
-            <button type="submit" onClick={handleSignUp}>
-              Sign Up
-            </button>
+            <button type="submit">Sign Up</button>
           </div>
         </form>
       </div>

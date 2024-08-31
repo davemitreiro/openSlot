@@ -11,7 +11,7 @@ export default function Signup({ createUser }) {
 
   const navigate = useNavigate();
 
-  const handlefullName = (e) => setFullName(e.target.value);
+  const handleFullName = (e) => setFullName(e.target.value);
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
 
@@ -36,48 +36,44 @@ export default function Signup({ createUser }) {
         createUser(response.data);
         console.log(response);
 
+        // Reset the form fields
         setFullName("");
         setEmail("");
         setPassword("");
+
+        // Navigate to the home page after successful signup
+        navigate("/");
       })
       .catch(function (error) {
         console.log(error);
       });
-    navigate("/");
   };
 
   return (
-    <div div style={{ marginTop: "200px" }}>
+    <div style={{ marginTop: "200px" }}>
       <h1 className="page-heading">Sign Up</h1>
       <div>
-        <form className="add-form">
+        <form className="add-form" onSubmit={handleSignUp}>
           <div className="add-row">
             <label>User name:</label>
             <input
               type="text"
               name="name"
               value={fullName}
-              onChange={handlefullName}
+              onChange={handleFullName}
             />
           </div>
           <div className="add-row">
-            <label>Email</label>
-            <input type="text" onChange={handleEmail} value={email} />
+            <label>Email:</label>
+            <input type="email" onChange={handleEmail} value={email} />
           </div>
           <div className="add-row">
             <label>Password:</label>
-            <textarea
-              cols="40"
-              type="text"
-              value={password}
-              onChange={handlePassword}
-            />
+            <input type="password" value={password} onChange={handlePassword} />
           </div>
 
           <div>
-            <button type="submit" onClick={handleSignUp}>
-              Sign Up
-            </button>
+            <button type="submit">Sign Up</button>
           </div>
         </form>
       </div>

@@ -79,7 +79,6 @@ export default function Calendar() {
 
   return (
     <div
-      div
       style={{ marginTop: "100px" }}
       className="lg:flex lg:h-full lg:flex-col "
     >

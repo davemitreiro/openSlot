@@ -33,7 +33,7 @@ export default function Login() {
         localStorage.setItem("token", response.data.authToken);
 
         console.log("Login successful:", response);
-        navigate("/dashboard"); // Navigate to a different page on successful login
+        navigate("/"); // Navigate to a different page on successful login
       })
       .catch((error) => {
         console.error("Error logging in:", error);

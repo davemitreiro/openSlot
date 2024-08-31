@@ -7,7 +7,7 @@ const AuthContext = React.createContext();
 const API_URL = "https://openslot-server.adaptable.app";
 
 function AuthProviderWrapper(props) {
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   /* Save the Login's JWT token in our Browser's Storage */
