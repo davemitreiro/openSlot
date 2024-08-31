@@ -9,6 +9,7 @@ import "./index.css";
 import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Calendar from "./components/Calendar";
+import LoginPage from "./pages/LoginPage";
 
 //import pages
 import SignupProPage from "./pages/SignupProPage";
@@ -24,12 +25,16 @@ function App() {
     <>
       <NavBar />
       <Routes>
-        <Route path="/homepage" element={<Homepage />}></Route>
+        <Route path="/" element={<Homepage />}></Route>
         <Route
-          path="/signup"
+          path="/signup-pro"
           element={<SignupProPage createPro={SignupProPage} />}
         />
-        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route
+          path="/signup-user"
+          element={<SignupUserPage createUser={SignupUserPage} />}
+        />
+        <Route path="/dashboard" element={<LoginPage />} />
 
         <Route path="/about" element={<AboutUsPage />} />
 

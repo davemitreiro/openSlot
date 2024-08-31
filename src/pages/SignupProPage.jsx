@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+//const API_URL = "https://openslot-server.adaptable.app";
+const API_URL = "http://localhost:5005";
+
 export default function Signup({ createUser }) {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -9,9 +12,9 @@ export default function Signup({ createUser }) {
 
   const navigate = useNavigate();
 
-  const handlefullName = (e) => setName(e.target.value);
-  const handleEmail = (e) => setType(e.target.value);
-  const handlePassword = (e) => setImg(e.target.value);
+  const handlefullName = (e) => setFullName(e.target.value);
+  const handleEmail = (e) => setEmail(e.target.value);
+  const handlePassword = (e) => setPassword(e.target.value);
 
   const handleSignUp = (e) => {
     e.preventDefault();
@@ -21,24 +24,27 @@ export default function Signup({ createUser }) {
     }
 
     const newUser = {
-      fullName,
-      email,
-      password,
+      role: "pro",
+      data: {
+        email,
+        password,
+      },
     };
 
     axios
-      .post("https://roamio.adaptable.app/auth/signup", newUser)
+      .post(`${API_URL}/auth/signup`, newUser)
       .then(function (response) {
         createUser(response.data);
+        console.log(response);
 
         setFullName("");
         setEmail("");
         setPassword("");
-        navigate("/");
       })
       .catch(function (error) {
         console.log(error);
       });
+    navigate("/");
   };
 
   return (
