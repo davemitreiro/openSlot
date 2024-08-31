@@ -3,12 +3,10 @@ import { Routes, Route } from "react-router-dom";
 import axios from "axios";
 
 import AboutUsPage from "./pages/AboutUsPage";
-import "./index.css";
 
-//import components
+//impor components
 import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
-import Calendar from "./components/Calendar";
 import LoginPage from "./pages/LoginPage";
 
 //import pages
@@ -34,12 +32,11 @@ function App() {
           path="/signup-user"
           element={<SignupUserPage createUser={SignupUserPage} />}
         />
-        <Route path="/dashboard" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
 
+        <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/about" element={<AboutUsPage />} />
-
         <Route path="/details" element={<DetailsPage />} />
-
         <Route path="/notfound" element={<NotFoundPage />} />
       </Routes>
       <Footer />
