@@ -1,18 +1,18 @@
+// SignupProPage.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-//const API_URL = "https://openslot-server.adaptable.app";
-const API_URL = "http://localhost:5005";
+const API_URL = "https://openslot-server.adaptable.app";
 
-export default function Signup({ createUser }) {
+export default function SignupProPage({ createPro }) {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
 
-  const handlefullName = (e) => setFullName(e.target.value);
+  const handleFullName = (e) => setFullName(e.target.value);
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
 
@@ -23,62 +23,49 @@ export default function Signup({ createUser }) {
       return;
     }
 
-    const newUser = {
+    const newPro = {
       role: "pro",
       data: {
+        fullName,
         email,
         password,
       },
     };
 
     axios
-      .post(`${API_URL}/auth/signup`, newUser)
-      .then(function (response) {
-        createUser(response.data);
-        console.log(response);
-
+      .post(`${API_URL}/auth/signup`, newPro)
+      .then((response) => {
+        createPro(response.data);
         setFullName("");
         setEmail("");
         setPassword("");
+        navigate("/"); // Redirect after successful signup
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch((error) => {
+        console.error("Error signing up:", error);
+        alert("Sign up failed. Please try again.");
       });
-    navigate("/dashboard");
   };
 
   return (
     <div style={{ marginTop: "100px" }}>
-      <h1 className="page-heading">Sign Up</h1>
+      <h1 className="page-heading">Sign Up as Pro</h1>
       <div>
-        <form className="add-form">
-          <div className="add-row">
-            <label>Company/Business or your name:</label>
-            <input
-              type="text"
-              name="name"
-              value={fullName}
-              onChange={handlefullName}
-            />
+        <form className="signup-form" onSubmit={handleSignUp}>
+          <div className="form-row">
+            <label>Company/Business or Your Name:</label>
+            <input type="text" value={fullName} onChange={handleFullName} />
           </div>
-          <div className="add-row">
-            <label>Email</label>
-            <input type="text" onChange={handleEmail} value={email} />
+          <div className="form-row">
+            <label>Email:</label>
+            <input type="email" value={email} onChange={handleEmail} />
           </div>
-          <div className="add-row">
+          <div className="form-row">
             <label>Password:</label>
-            <textarea
-              cols="40"
-              type="text"
-              value={password}
-              onChange={handlePassword}
-            />
+            <input type="password" value={password} onChange={handlePassword} />
           </div>
-
           <div>
-            <button type="submit" onClick={handleSignUp}>
-              Sign Up
-            </button>
+            <button type="submit">Sign Up</button>
           </div>
         </form>
       </div>

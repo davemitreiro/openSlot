@@ -1,11 +1,11 @@
+// LoginPage.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-//const API_URL = "https://openslot-server.adaptable.app";
-const API_URL = "http://localhost:5005";
+const API_URL = "https://openslot-server.adaptable.app";
 
-export default function Login() {
+export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -29,11 +29,16 @@ export default function Login() {
     axios
       .post(`${API_URL}/auth/login`, userCredentials)
       .then((response) => {
-        // Save token or user data in localStorage or context
-        localStorage.setItem("token", response.data.authToken);
+        const { role, authToken } = response.data;
+        localStorage.setItem("token", authToken);
+
+        if (role === "pro") {
+          navigate("/pro-dashboard");
+        } else {
+          navigate("/dashboard");
+        }
 
         console.log("Login successful:", response);
-        navigate("/dashboard"); // Navigate to a different page on successful login
       })
       .catch((error) => {
         console.error("Error logging in:", error);
@@ -45,19 +50,17 @@ export default function Login() {
     <div style={{ marginTop: "100px" }}>
       <h1 className="page-heading">Login</h1>
       <div>
-        <form className="login-form">
-          <div className="login-row">
+        <form className="login-form" onSubmit={handleLogin}>
+          <div className="form-row">
             <label>Email:</label>
-            <input type="text" value={email} onChange={handleEmail} />
+            <input type="email" value={email} onChange={handleEmail} />
           </div>
-          <div className="login-row">
+          <div className="form-row">
             <label>Password:</label>
             <input type="password" value={password} onChange={handlePassword} />
           </div>
           <div>
-            <button type="submit" onClick={handleLogin}>
-              Login
-            </button>
+            <button type="submit">Login</button>
           </div>
         </form>
       </div>

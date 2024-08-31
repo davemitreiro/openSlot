@@ -12,7 +12,7 @@ export default function NotFoundPage() {
   return (
     <div className="">
       <div>
-        <img src={notFoundPic} alt="Not found Page" className="notFoundPic" />
+        {/* <img src={notFoundPic} alt="Not found Page" className="notFoundPic" />*/}
       </div>
       <button onClick={handleNavigate} className="">
         Return to Homepage
