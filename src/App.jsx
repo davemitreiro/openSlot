@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import axios from "axios";
-import "./App.css"; //default css to delete
-import AboutUsPage from "./pages/AboutUsPage";
 
-//impor components
+import AboutUsPage from "./pages/AboutUsPage";
+import "./index.css";
+
+//import components
 import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
 import LoginPage from "./pages/LoginPage";
+import Calendar from "./components/Calendar";
 
 //import pages
 import SignupProPage from "./pages/SignupProPage";
@@ -33,6 +35,7 @@ function App() {
           element={<SignupUserPage createUser={SignupUserPage} />}
         />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
 
         <Route path="/about" element={<AboutUsPage />} />
 
