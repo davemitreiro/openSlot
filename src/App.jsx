@@ -26,7 +26,7 @@ function App() {
         <Route path="/" element={<Homepage />}></Route>
         <Route
           path="/signup-pro"
-          element={<SignupProPage createPro={SignupProPage} />}
+          element={<SignupProPage createUser={SignupProPage} />}
         />
         <Route
           path="/signup-user"
