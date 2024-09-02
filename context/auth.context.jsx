@@ -11,8 +11,10 @@ function AuthProviderWrapper(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   /* Save the Login's JWT token in our Browser's Storage */
-  const saveToken = (token) => {
-    localStorage.setItem("authToken", token);
+  const saveUserInfo = (response) => {
+    localStorage.setItem("authToken", response.data.authToken);
+    setUser(response.data);
+    console.log(response.data);
   };
 
   /* Function that authenticates the user ---> verifies if the token is valid */
@@ -56,7 +58,7 @@ function AuthProviderWrapper(props) {
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, user, saveToken, authenticateUser, logOut }}
+      value={{ isLoggedIn, user, saveUserInfo, authenticateUser, logOut }}
     >
       {props.children}
     </AuthContext.Provider>

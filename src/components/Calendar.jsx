@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import moment from "moment";
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/react";
 import {
@@ -8,6 +8,9 @@ import {
 } from "@heroicons/react/20/solid";
 
 import { useNavigate } from "react-router-dom";
+
+import { RoleContext } from "../../context/role.context";
+import { AuthContext } from "../../context/auth.context";
 
 // Initial empty state for the days array
 const initialDays = [];
@@ -24,7 +27,9 @@ const getRandomColor = () => {
   return colors[Math.floor(Math.random() * colors.length)];
 };
 
-export default function Calendar() {
+export default function Calendar({ id }) {
+  const { user } = useContext(AuthContext);
+  const { role, setRole } = useContext(RoleContext);
   const [days, setDays] = useState(initialDays);
   const [currentMonth, setCurrentMonth] = useState(moment());
   const [currentDay, setCurrentDay] = useState(moment());
@@ -39,14 +44,17 @@ export default function Calendar() {
       console.error("Event ID is missing.");
     }
   };
-
+  ///appointments/user/:userId/all
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await fetch(
-          `https://openslot-server.adaptable.app/appointments/`
-        );
-        const appointments = await response.json();
+        const appointments = user?.userData.appointments || []; // Use optional chaining and a fallback to an empty array
+        console.log("API Response:", appointments);
+
+        if (!Array.isArray(appointments)) {
+          console.error("Appointments is not an array:", appointments);
+          return; // Exit the function if appointments is not an array
+        }
 
         // Process appointments and update state
         const formattedDays =
@@ -60,7 +68,7 @@ export default function Calendar() {
     };
 
     fetchAppointments();
-  }, [currentMonth, currentDay, viewMode]);
+  }, [currentMonth, currentDay, viewMode, user]);
 
   // Function to format appointments data for month view
   const formatAppointments = (appointments) => {
@@ -84,6 +92,7 @@ export default function Calendar() {
           )
           .map((appointment) => ({
             ...appointment,
+            eventId: appointment._id || appointment.id,
             startTime: moment(appointment.startTime).format("h:mm A"),
             endTime: moment(appointment.endTime).format("h:mm A"),
             color: getRandomColor(), // Add random color

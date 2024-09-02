@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Calendar from "../components/Calendar";
 import { jwtDecode } from "jwt-decode";
 
-export default function Dashboard() {
+export default function Dashboard({ id }) {
   /*const token = localStorage.getItem("token");
   const decodedToken = jwtDecode(token);
   const userId = decodedToken._id;*/
@@ -15,7 +15,7 @@ export default function Dashboard() {
       <Link to=""></Link>
 
       <div className="App">
-        <Calendar />
+        <Calendar element={(id = { id })} />
       </div>
     </div>
   );
