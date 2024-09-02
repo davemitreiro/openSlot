@@ -4,16 +4,16 @@ import Footer from "./components/Footer";
 import Calendar from "./components/Calendar";
 
 // Import pages
-import LoginUserPage from "./pages/LoginUserPage";
-import LoginProPage from "./pages/LoginProPage";
-import SignupProPage from "./pages/SignupProPage";
-import SignupUserPage from "./pages/SignupUserPage";
+import LoginPage from "./pages/LoginPage";
+
+import SignupPage from "./pages/SignupPage";
 import Homepage from "./pages/Homepage";
 import DashboardPage from "./pages/DashboardPage";
 import DetailsPage from "./pages/DetailsPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import AboutUsPage from "./pages/AboutUsPage";
 import UpdateAppointmentPage from "./pages/UpdateAppointmentPage";
+import { RoleContext } from "../context/role.context";
 
 function App() {
   return (
@@ -22,15 +22,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route
-          path="/signup-pro"
-          element={<SignupProPage createPro={SignupProPage} />}
+          path="/signup"
+          element={<SignupPage createUser={SignupPage} />}
         />
-        <Route
-          path="/signup-user"
-          element={<SignupUserPage createUser={SignupUserPage} />}
-        />
-        <Route path="/login-user" element={<LoginUserPage />} />
-        <Route path="/login-pro" element={<LoginProPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/about" element={<AboutUsPage />} />
         <Route path="/details/:eventId" element={<DetailsPage />} />

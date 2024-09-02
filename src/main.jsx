@@ -5,6 +5,7 @@ import App from "./App"; // Import the App component
 import "./index.css"; // Import your global styles
 import { BrowserRouter as Router } from "react-router-dom"; // Import Router
 import { AuthProviderWrapper } from "../context/auth.context"; // Import your context provider
+import { RoleProviderWrapper } from "../context/role.context"; // Import your context provider
 
 // Get the root element from the DOM
 const rootElement = document.getElementById("root");
@@ -16,7 +17,9 @@ root.render(
   <StrictMode>
     <Router>
       <AuthProviderWrapper>
-        <App />
+        <RoleProviderWrapper>
+          <App />
+        </RoleProviderWrapper>
       </AuthProviderWrapper>
     </Router>
   </StrictMode>

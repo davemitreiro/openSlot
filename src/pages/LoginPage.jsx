@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { RoleContext } from "../../context/role.context";
 
-//const API_URL = "https://openslot-server.adaptable.app";
 const API_URL = "http://localhost:5005";
 
 export default function Login() {
+  const { role, selectRole } = useContext(RoleContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -22,7 +24,7 @@ export default function Login() {
     }
 
     const userCredentials = {
-      role: "user",
+      role: role,
       data: { email, password },
     };
 
@@ -41,12 +43,20 @@ export default function Login() {
       });
   };
 
+  const handleRoleClick = (e) => {
+    e.preventDefault();
+    selectRole();
+  };
+
   return (
     <div style={{ marginTop: "200px" }}>
       <h1 className="page-heading">Login</h1>
       <div>
         <form className="login-form">
           <div className="login-row">
+            <button className="login-role" onClick={handleRoleClick}>
+              {role === "user" ? "Switch to pro" : "Switch to user"}
+            </button>
             <label>Email:</label>
             <input type="text" value={email} onChange={handleEmail} />
           </div>

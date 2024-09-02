@@ -1,30 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { RoleContext } from "../../context/role.context";
 
-// const API_URL = "https://openslot-server.adaptable.app";
-const API_URL = "http://localhost:5005";
+const API_URL = "https://openslot-server.adaptable.app";
 
-export default function Signup({ createPro }) {
-  const [companyName, setCompanyName] = useState("");
+export default function Signup({ createUser }) {
+  const { role, selectRole } = useContext(RoleContext);
+
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
 
-  const handleCompanyName = (e) => setCompanyName(e.target.value);
+  const handleFullName = (e) => setFullName(e.target.value);
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
 
   const handleSignUp = (e) => {
     e.preventDefault();
-    if (!companyName || !email || !password) {
+    if (!fullName || !email || !password) {
       alert("Please fill in all fields");
       return;
     }
 
-    const newPro = {
-      role: "pro",
+    const newUser = {
+      role: role,
       data: {
         email,
         password,
@@ -32,13 +34,13 @@ export default function Signup({ createPro }) {
     };
 
     axios
-      .post(`${API_URL}/auth/signup`, newPro)
+      .post(`${API_URL}/auth/signup`, newUser)
       .then(function (response) {
-        createPro(response.data);
+        createUser(response.data);
         console.log(response);
 
         // Reset the form fields
-        setCompanyName("");
+        setFullName("");
         setEmail("");
         setPassword("");
 
@@ -50,22 +52,30 @@ export default function Signup({ createPro }) {
       });
   };
 
+  const handleRoleClick = (e) => {
+    e.preventDefault();
+    selectRole();
+  };
+
   return (
     <div style={{ marginTop: "200px" }}>
       <h1 className="page-heading">Sign Up</h1>
       <div>
         <form className="add-form" onSubmit={handleSignUp}>
           <div className="add-row">
-            <label>Company/Business or your name:</label>
+            <button className="login-role" onClick={handleRoleClick}>
+              {role === "user" ? "Switch to pro" : "Switch to user"}
+            </button>
+            <label>User name:</label>
             <input
               type="text"
               name="name"
-              value={companyName}
-              onChange={handleCompanyName}
+              value={fullName}
+              onChange={handleFullName}
             />
           </div>
           <div className="add-row">
-            <label>Email</label>
+            <label>Email:</label>
             <input type="email" onChange={handleEmail} value={email} />
           </div>
           <div className="add-row">
