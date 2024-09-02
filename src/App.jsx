@@ -4,7 +4,8 @@ import Footer from "./components/Footer";
 import Calendar from "./components/Calendar";
 
 // Import pages
-import LoginPage from "./pages/LoginPage";
+import LoginUserPage from "./pages/LoginUserPage";
+import LoginProPage from "./pages/LoginProPage";
 import SignupProPage from "./pages/SignupProPage";
 import SignupUserPage from "./pages/SignupUserPage";
 import Homepage from "./pages/Homepage";
@@ -20,9 +21,16 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<Homepage />} />
-        <Route path="/signup-pro" element={<SignupProPage />} />
-        <Route path="/signup-user" element={<SignupUserPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/signup-pro"
+          element={<SignupProPage createPro={SignupProPage} />}
+        />
+        <Route
+          path="/signup-user"
+          element={<SignupUserPage createUser={SignupUserPage} />}
+        />
+        <Route path="/login-user" element={<LoginUserPage />} />
+        <Route path="/login-pro" element={<LoginProPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/about" element={<AboutUsPage />} />
         <Route path="/details/:eventId" element={<DetailsPage />} />

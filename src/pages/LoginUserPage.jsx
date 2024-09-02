@@ -22,8 +22,8 @@ export default function Login() {
     }
 
     const userCredentials = {
-      email,
-      password,
+      role: "user",
+      data: { email, password },
     };
 
     axios
