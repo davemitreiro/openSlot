@@ -28,7 +28,7 @@ export default function Calendar() {
   const [days, setDays] = useState(initialDays);
   const [currentMonth, setCurrentMonth] = useState(moment());
   const [currentDay, setCurrentDay] = useState(moment());
-  const [viewMode, setViewMode] = useState("month");
+  const [viewMode, setViewMode] = useState("week");
 
   const navigate = useNavigate();
 
@@ -113,8 +113,8 @@ export default function Calendar() {
           )
           .map((appointment) => ({
             ...appointment,
-            startTime: moment(appointment.startTime).format("h:mm A"),
-            endTime: moment(appointment.endTime).format("h:mm A"),
+            // startTime: moment(appointment.startTime).format("h:mm A"),
+            // endTime: moment(appointment.endTime).format("h:mm A"),
             color: getRandomColor(), // Add random color
           })),
       });
@@ -313,17 +313,20 @@ export default function Calendar() {
                 </time>
                 {day.events.length > 0 && (
                   <ul className="mt-2">
-                    {day.events.map((event, eventIndex) => (
-                      <li
-                        key={eventIndex}
-                        className={`text-xs p-1 rounded-md mb-1 ${event.color} border border-gray-400`}
-                      >
-                        <div className="font-semibold">{event.title}</div>
-                        <div className="text-xs">
-                          {event.startTime} - {event.endTime}
-                        </div>
-                      </li>
-                    ))}
+                    {day.events.map((event, eventIndex) => {
+                      if (eventIndex >= 2) return;
+                      return (
+                        <li
+                          key={eventIndex}
+                          className={`text-xs p-1 rounded-md mb-1 ${event.color} border border-gray-400`}
+                        >
+                          <div className="font-semibold">{event.title}</div>
+                          <div className="text-xs">
+                            {event.startTime} - {event.endTime}
+                          </div>
+                        </li>
+                      );
+                    })}
                   </ul>
                 )}
               </div>
@@ -371,17 +374,15 @@ export default function Calendar() {
                 {days.map((day, dayIndex) => {
                   // Find events for the current day and time slot
                   const events = getEventsForDay(day.date).filter((event) => {
-                    const eventStart = moment(event.startTime, "h:mm A");
-                    const eventEnd = moment(event.endTime, "h:mm A");
-                    return (
-                      eventStart.format("h:mm A") === slot ||
-                      (eventStart.isBefore(
-                        moment(slot, "h:mm A").endOf("hour")
-                      ) &&
-                        eventEnd.isAfter(
-                          moment(slot, "h:mm A").startOf("hour")
-                        ))
-                    );
+                    console.log(event);
+                    const eventStart = moment(event.startTime);
+                    const eventEnd = moment(event.endTime);
+                    const slotsToTake = moment
+                      .duration(eventEnd.diff(eventStart))
+                      .asHours();
+                    console.log(slotsToTake);
+
+                    return eventStart.format("h:mm A") === slot;
                   });
 
                   return (
@@ -393,7 +394,7 @@ export default function Calendar() {
                       {events.map((event, eventIndex) => (
                         <div
                           key={eventIndex}
-                          className={`text-xs p-1 rounded-md mb-1 ${event.color} border border-gray-400 cursor-pointer`}
+                          className={`h-full text-xs p-1 rounded-md mb-1 ${event.color} border border-gray-400 cursor-pointer`}
                           onClick={() => handleEventClick(event._id)}
                         >
                           <div className="font-semibold">{event.title}</div>
@@ -441,18 +442,20 @@ export default function Calendar() {
                               ))
                           );
                         })
-                        .map((event, eventIndex) => (
-                          <div
-                            key={eventIndex}
-                            className={`text-xs p-1 rounded-md mb-1 ${event.color} border border-gray-400 cursor-pointer`}
-                            onClick={() => handleEventClick(event._id)}
-                          >
-                            <div className="font-semibold">{event.title}</div>
-                            <div className="text-xs">
-                              {event.startTime} - {event.endTime}
+                        .map((event, eventIndex) => {
+                          return (
+                            <div
+                              key={eventIndex}
+                              className={`text-xs p-1 rounded-md mb-1 ${event.color} border border-gray-400 cursor-pointer`}
+                              onClick={() => handleEventClick(event._id)}
+                            >
+                              <div className="font-semibold">{event.title}</div>
+                              <div className="text-xs">
+                                {event.startTime} - {event.endTime}
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          );
+                        })}
                     </div>
                   </div>
                 ))}
