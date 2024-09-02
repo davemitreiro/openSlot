@@ -26,7 +26,7 @@ function App() {
           element={<SignupPage createUser={SignupPage} />}
         />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/dashboard/:userId" element={<DashboardPage />} />
         <Route path="/about" element={<AboutUsPage />} />
         <Route path="/details/:eventId" element={<DetailsPage />} />
         <Route path="*" element={<NotFoundPage />} />
