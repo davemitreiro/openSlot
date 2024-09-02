@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const Appointment = () => {
   // State for form fields
@@ -15,6 +16,8 @@ const Appointment = () => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
+  const navigate = useNavigate(); // Initialize useNavigate
+
   // Fetch pros and users on component mount
   useEffect(() => {
     const fetchProsAndUsers = async () => {
@@ -22,9 +25,11 @@ const Appointment = () => {
       setError(null);
       try {
         const [proRes, userRes] = await Promise.all([
-          axios.get("/pros"), // Endpoint to fetch professionals
-          axios.get("/users"), // Endpoint to fetch users
+          axios.get("http://localhost:5005/pro"), // Updated endpoint for pros
+          axios.get("http://localhost:5005/users"), // Updated endpoint for users
         ]);
+        console.log("Pros Data:", proRes.data);
+        console.log("Users Data:", userRes.data);
         setPros(proRes.data);
         setUsers(userRes.data);
       } catch (err) {
@@ -34,6 +39,8 @@ const Appointment = () => {
         setLoading(false);
       }
     };
+
+    console.log("pros", pros);
 
     fetchProsAndUsers();
   }, []);
@@ -57,7 +64,10 @@ const Appointment = () => {
     setSubmitting(true);
     try {
       const appointment = { title, startTime, endTime, notes, pro, user };
-      const response = await axios.post("/appointments", appointment);
+      const response = await axios.post(
+        "http://localhost:5005/appointments/create",
+        appointment
+      ); // Updated endpoint for creating an appointment
       alert("Appointment created successfully!");
       console.log("Appointment created:", response.data);
 
@@ -68,6 +78,9 @@ const Appointment = () => {
       setNotes("");
       setPro("");
       setUser("");
+
+      // Navigate back to the dashboard after successful submission
+      navigate("/dashboard"); // Replace '/dashboard' with the correct route if necessary
     } catch (err) {
       setError("Failed to create appointment. Please try again.");
       console.error(err);
@@ -77,7 +90,7 @@ const Appointment = () => {
   };
 
   return (
-    <div>
+    <div style={{ marginTop: "100px" }}>
       <h2>Create Appointment</h2>
       {error && <p className="error">{error}</p>}
 
@@ -134,7 +147,7 @@ const Appointment = () => {
               <option value="">Select a professional</option>
               {pros.map((p) => (
                 <option key={p._id} value={p._id}>
-                  {p.name}
+                  {p.email}
                 </option>
               ))}
             </select>
@@ -150,7 +163,7 @@ const Appointment = () => {
               <option value="">Select a user</option>
               {users.map((u) => (
                 <option key={u._id} value={u._id}>
-                  {u.name}
+                  {u.email}
                 </option>
               ))}
             </select>

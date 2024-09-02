@@ -15,6 +15,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import AboutUsPage from "./pages/AboutUsPage";
 import UpdateAppointmentPage from "./pages/UpdateAppointmentPage";
 import { RoleContext } from "../context/role.context";
+import Appointment from "./components/Appointment";
 
 function App() {
   const token = localStorage.getItem("token");
@@ -35,6 +36,7 @@ function App() {
         <Route path="/about" element={<AboutUsPage />} />
         <Route path="/details/:eventId" element={<DetailsPage />} />
         <Route path="*" element={<NotFoundPage />} />
+        <Route path="/create" element={<Appointment />} />
         <Route
           path="/update-appointment/:eventId"
           element={<UpdateAppointmentPage />}
