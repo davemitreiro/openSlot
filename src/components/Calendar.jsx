@@ -34,23 +34,26 @@ export default function Calendar({ id }) {
   const [currentMonth, setCurrentMonth] = useState(moment());
   const [currentDay, setCurrentDay] = useState(moment());
   const [viewMode, setViewMode] = useState("month");
+  const [appointment, setAppointments] = useState([]);
 
   const navigate = useNavigate();
 
-  const handleEventClick = (eventId) => {
-    if (eventId) {
-      navigate(`/details/${eventId}`);
-    } else {
-      console.error("Event ID is missing.");
-    }
-  };
+  //const appointmentsId = user?.userData.id || [];
+
+  // console.log("The appointments", appointments);
   ///appointments/user/:userId/all
+
+  console.log("user:", user);
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const appointments = user?.userData.appointments || []; // Use optional chaining and a fallback to an empty array
-        console.log("API Response:", appointments);
+        const response = await fetch(
+          `https://openslot-server.adaptable.app/appointments/${role}/${user.userData._id}/all`
+        );
+        const appointments = await response.json();
 
+        // Use optional chaining and a fallback to an empty array
+        console.log("API Response:", appointments);
         if (!Array.isArray(appointments)) {
           console.error("Appointments is not an array:", appointments);
           return; // Exit the function if appointments is not an array
@@ -90,13 +93,18 @@ export default function Calendar({ id }) {
           .filter((appointment) =>
             moment(appointment.startTime).isSame(currentDate, "day")
           )
-          .map((appointment) => ({
-            ...appointment,
-            eventId: appointment._id || appointment.id,
-            startTime: moment(appointment.startTime).format("h:mm A"),
-            endTime: moment(appointment.endTime).format("h:mm A"),
-            color: getRandomColor(), // Add random color
-          })),
+          .map(
+            (appointment) => (
+              console.log("what's this:", appointment),
+              {
+                ...appointment,
+                //eventId: appointment,
+                startTime: moment(appointment.startTime).format("h:mm A"),
+                endTime: moment(appointment.endTime).format("h:mm A"),
+                color: getRandomColor(), // Add random color
+              }
+            )
+          ),
       });
       currentDate.add(1, "day");
     }
@@ -156,6 +164,14 @@ export default function Calendar({ id }) {
   const handleDayClick = (date) => {
     setCurrentDay(moment(date));
     setViewMode("day");
+  };
+
+  const handleEventClick = (userId) => {
+    if (userId) {
+      navigate(`/details/${userId}`);
+    } else {
+      console.error("Event ID is missing.");
+    }
   };
 
   const handleWeekChange = (direction) => {
