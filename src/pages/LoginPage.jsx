@@ -7,9 +7,9 @@ import { jwtDecode } from "jwt-decode";
 const API_URL = "http://localhost:5005";
 
 export default function Login() {
-  const token = localStorage.getItem("token");
+  /*const token = localStorage.getItem("token");
   const decodedToken = jwtDecode(token);
-  const userId = decodedToken._id;
+  const userId = decodedToken._id;*/
 
   const { role, selectRole } = useContext(RoleContext);
 
