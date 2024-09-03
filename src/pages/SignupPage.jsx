@@ -25,9 +25,11 @@ export default function Signup({ createUser }) {
       return;
     }
 
+    //MISSING IMG
     const newUser = {
       role: role,
       data: {
+        fullName,
         email,
         password,
       },
@@ -66,7 +68,8 @@ export default function Signup({ createUser }) {
             <button className="login-role" onClick={handleRoleClick}>
               {role === "user" ? "Switch to pro" : "Switch to user"}
             </button>
-            <label>User name:</label>
+            <div></div>
+            <label>Name:</label>
             <input
               type="text"
               name="name"

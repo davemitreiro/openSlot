@@ -43,7 +43,7 @@ export default function Login() {
   // Redirect to the dashboard when the user successfully logs in
   useEffect(() => {
     if (isLoggedIn) {
-      navigate("/dashboard");
+      navigate("/profile");
     }
   }, [isLoggedIn, navigate]);
 
@@ -61,6 +61,7 @@ export default function Login() {
             <button className="login-role" onClick={handleRoleClick}>
               {role === "user" ? "Switch to pro" : "Switch to user"}
             </button>
+            <div></div>
             <label>Email:</label>
             <input type="text" value={email} onChange={handleEmail} />
           </div>

@@ -17,6 +17,7 @@ import UpdateAppointmentPage from "./pages/UpdateAppointmentPage";
 import { RoleContext } from "../context/role.context";
 import { AuthContext, ProtectedRoute } from "../context/auth.context";
 import Appointment from "./components/Appointment";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/details/:eventId" element={<DetailsPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
           <Route path="/create" element={<Appointment />} />
           <Route
             path="/update-appointment/:eventId"

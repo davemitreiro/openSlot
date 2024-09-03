@@ -5,8 +5,8 @@ import axios from "axios";
 // Initializing context
 const AuthContext = React.createContext();
 
-const API_URL =
-  "https://openslot-server.adaptable.app" || "http://localhost:5005";
+const API_URL = "http://localhost:5005";
+// "https://openslot-server.adaptable.app" || "http://localhost:5005";
 
 function AuthProviderWrapper(props) {
   const [user, setUser] = useState(null);
@@ -21,7 +21,7 @@ function AuthProviderWrapper(props) {
     setRole(response.data.role);
     setUser(response.data.userData);
     setIsLoggedIn(true);
-    console.log(response.data);
+    console.log("this", response);
   };
 
   const selectRole = () => {
@@ -30,8 +30,8 @@ function AuthProviderWrapper(props) {
 
   const userEmail = user;
 
-  console.log("user", user);
-  console.log("userEmail", userEmail?.email);
+  // console.log("user", user);
+  //console.log("userEmail", userEmail?.email);
 
   /* Function that authenticates the user ---> verifies if the token is valid */
   const authenticateUser = () => {

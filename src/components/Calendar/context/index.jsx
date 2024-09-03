@@ -9,9 +9,9 @@ export const CalendarContext = createContext();
 export const CalendarProvider = ({ children }) => {
   const { API_URL } = useContext(AuthContext);
 
-  const { user } = useContext(AuthContext);
+  const { user, role } = useContext(AuthContext);
 
-  const { role, setRole } = useContext(AuthContext);
+  //const { role, setRole } = useContext(AuthContext);
   const container = useRef(null);
   const containerNav = useRef(null);
   const containerOffset = useRef(null);
@@ -51,7 +51,7 @@ export const CalendarProvider = ({ children }) => {
     const fetchAppointments = async () => {
       try {
         const response = await fetch(
-          `${API_URL}/appointments/${role}/${user.id}/all`
+          `${API_URL}/appointments/${role}/${user?.id}/all`
         );
         const appointments = await response.json();
 
