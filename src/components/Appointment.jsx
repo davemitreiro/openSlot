@@ -32,8 +32,7 @@ const Appointment = () => {
           axios.get(`${API_URL}/pro`), // Updated endpoint for pros
           axios.get(`${API_URL}/users`), // Updated endpoint for users
         ]);
-        console.log("Pros Data:", proRes.data);
-        console.log("Users Data:", userRes.data);
+
         setPros(proRes.data);
         setUsers(userRes.data);
       } catch (err) {
@@ -56,7 +55,7 @@ const Appointment = () => {
       setError("Please fill out all required fields.");
       return;
     }
-    console.log("Start time format", startTime);
+
     // Ensure end time is after start time
     if (new Date(startTime) >= new Date(endTime)) {
       setError("End time must be after start time.");
@@ -81,8 +80,6 @@ const Appointment = () => {
       setPro("");
       setUser("");
 
-      //console.log("user", user);
-
       // Navigate back to the dashboard after successful submission
       navigate("/dashboard/"); // Replace '/dashboard' with the correct route if necessary
     } catch (err) {
@@ -92,8 +89,6 @@ const Appointment = () => {
       setSubmitting(false);
     }
   };
-
-  console.log("userEmail", userEmail);
 
   return (
     <div style={{ marginTop: "100px" }}>
