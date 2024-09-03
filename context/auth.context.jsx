@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { Outlet, Navigate } from "react-router-dom";
 import axios from "axios";
 
 // Initializing context
@@ -27,7 +28,6 @@ function AuthProviderWrapper(props) {
   const userEmail = user;
 
   console.log("user", user);
-
   console.log("userEmail", userEmail?.email);
 
   /* Function that authenticates the user ---> verifies if the token is valid */
@@ -91,4 +91,15 @@ function AuthProviderWrapper(props) {
   );
 }
 
-export { AuthProviderWrapper, AuthContext };
+// A ProtectedRoute component that checks if the user is authenticated
+function ProtectedRoute({ redirectPath = "/login", children }) {
+  const { isLoggedIn } = useContext(AuthContext);
+
+  if (!isLoggedIn) {
+    return <Navigate to={redirectPath} />;
+  }
+
+  return children ? children : <Outlet />;
+}
+
+export { AuthProviderWrapper, AuthContext, ProtectedRoute };

@@ -15,7 +15,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import AboutUsPage from "./pages/AboutUsPage";
 import UpdateAppointmentPage from "./pages/UpdateAppointmentPage";
 import { RoleContext } from "../context/role.context";
-import { AuthContext } from "../context/auth.context";
+import { AuthContext, ProtectedRoute } from "../context/auth.context";
 import Appointment from "./components/Appointment";
 
 function App() {
@@ -29,15 +29,17 @@ function App() {
           element={<SignupPage createUser={SignupPage} />}
         />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/details/:eventId" element={<DetailsPage />} />
+          <Route path="/create" element={<Appointment />} />
+          <Route
+            path="/update-appointment/:eventId"
+            element={<UpdateAppointmentPage />}
+          />
+        </Route>
         <Route path="/about" element={<AboutUsPage />} />
-        <Route path="/details/:eventId" element={<DetailsPage />} />
         <Route path="*" element={<NotFoundPage />} />
-        <Route path="/create" element={<Appointment />} />
-        <Route
-          path="/update-appointment/:eventId"
-          element={<UpdateAppointmentPage />}
-        />
       </Routes>
       <Footer />
     </>
