@@ -3,15 +3,18 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { RoleContext } from "../../context/role.context";
 import { jwtDecode } from "jwt-decode";
+import { AuthContext } from "../../context/auth.context";
 
 const API_URL = "http://localhost:5005";
 
-export default function Login() {
-  /*const token = localStorage.getItem("token");
+export default function Login({ id }) {
+  const token = localStorage.getItem("token");
   const decodedToken = jwtDecode(token);
-  const userId = decodedToken._id;*/
+  const userId = decodedToken._id;
 
   const { role, selectRole } = useContext(RoleContext);
+
+  const { saveUserInfo } = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,10 +40,13 @@ export default function Login() {
       .post(`${API_URL}/auth/login`, userCredentials)
       .then((response) => {
         // Save token or user data in localStorage or context
-        localStorage.setItem("token", response.data.authToken);
+        saveUserInfo(response);
+        console.log("response:", response);
+
+        //localStorage.setItem("token", response.data.authToken);
 
         console.log("Login successful:", response);
-        navigate(`/dashboard/${userId}`); // Navigate to a different page on successful login
+        navigate(`/dashboard/${response.data.userData._id}`); // Navigate to a different page on successful login
       })
       .catch((error) => {
         console.error("Error logging in:", error);
