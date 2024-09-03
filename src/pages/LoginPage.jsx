@@ -1,19 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-//import { RoleContext } from "../../context/role.context";
-import { jwtDecode } from "jwt-decode";
 import { AuthContext } from "../../context/auth.context";
 
 export default function Login() {
-  /*const token = localStorage.getItem("authToken");
-  const decodedToken = jwtDecode(token);
-  const userId = decodedToken._id;*/
-
-  const { role, selectRole, API_URL } = useContext(AuthContext);
-
-  const { saveUserInfo } = useContext(AuthContext);
-
+  const { role, selectRole, API_URL, saveUserInfo, isLoggedIn } =
+    useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -39,18 +31,21 @@ export default function Login() {
       .then((response) => {
         // Save token or user data in localStorage or context
         saveUserInfo(response);
-        console.log("response:", response);
-
-        //localStorage.setItem("token", response.data.authToken);
-
         console.log("Login successful:", response);
-        navigate(`/dashboard/`); // Navigate to a different page on successful login
+        // No need to navigate here, let useEffect handle it
       })
       .catch((error) => {
         console.error("Error logging in:", error);
         alert("Login failed. Please check your credentials.");
       });
   };
+
+  // Redirect to the dashboard when the user successfully logs in
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/dashboard");
+    }
+  }, [isLoggedIn, navigate]);
 
   const handleRoleClick = (e) => {
     e.preventDefault();

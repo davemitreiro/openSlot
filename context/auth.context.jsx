@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Outlet, Navigate } from "react-router-dom";
+import { Outlet, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 // Initializing context
@@ -13,11 +13,14 @@ function AuthProviderWrapper(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [role, setRole] = useState(null);
 
+  const navigate = useNavigate();
+
   /* Save the Login's JWT token in our Browser's Storage */
   const saveUserInfo = (response) => {
     localStorage.setItem("authToken", response.data.authToken);
     setRole(response.data.role);
     setUser(response.data.userData);
+    setIsLoggedIn(true);
     console.log(response.data);
   };
 
@@ -70,6 +73,7 @@ function AuthProviderWrapper(props) {
   const logOut = () => {
     removeToken();
     authenticateUser();
+    navigate("/");
   };
 
   return (
