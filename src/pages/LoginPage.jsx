@@ -1,18 +1,16 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { RoleContext } from "../../context/role.context";
+//import { RoleContext } from "../../context/role.context";
 import { jwtDecode } from "jwt-decode";
 import { AuthContext } from "../../context/auth.context";
 
-const API_URL = "http://localhost:5005";
-
-export default function Login({ id }) {
-  const token = localStorage.getItem("token");
+export default function Login() {
+  /*const token = localStorage.getItem("authToken");
   const decodedToken = jwtDecode(token);
-  const userId = decodedToken._id;
+  const userId = decodedToken._id;*/
 
-  const { role, selectRole } = useContext(RoleContext);
+  const { role, selectRole, API_URL } = useContext(AuthContext);
 
   const { saveUserInfo } = useContext(AuthContext);
 
@@ -46,7 +44,7 @@ export default function Login({ id }) {
         //localStorage.setItem("token", response.data.authToken);
 
         console.log("Login successful:", response);
-        navigate(`/dashboard/${response.data.userData._id}`); // Navigate to a different page on successful login
+        navigate(`/dashboard/`); // Navigate to a different page on successful login
       })
       .catch((error) => {
         console.error("Error logging in:", error);

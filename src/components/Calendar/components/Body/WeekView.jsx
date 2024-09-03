@@ -137,16 +137,14 @@ export default function WeekView({ handleEventClick }) {
               }}
             >
               {showEvents.map((event, index) => {
-                const dayOfWeek = moment(event.startTime).day();
+                /*   const dayOfWeek = moment(event.startTime).day();
                 // Event start & end, considering that each hour has 12 rows (every 5 minutes)
-                const start =
-                  moment(event.startTime).local().hour() * 12 +
-                  moment(event.startTime).local().minute() / 5;
-                const end =
-                  moment(event.endTime).local().hour() * 12 +
-                  moment(event.endTime).local().minute() / 5;
-                /* const start = moment(event.startTime).utc().hour() * 12;
+
+                const start = moment(event.startTime).utc().hour() * 12;
                 const end = moment(event.endTime).utc().hour() * 12; */
+                const dayOfWeek = moment(event.startTime).utcOffset(1).day();
+                const start = moment(event.startTime).utcOffset(1).hour() * 12;
+                const end = moment(event.endTime).utcOffset(1).hour() * 12;
 
                 return (
                   <li
@@ -165,7 +163,7 @@ export default function WeekView({ handleEventClick }) {
                       </p>
                       <p className="text-blue-500 group-hover:text-blue-700">
                         <time dateTime={event.startTime}>
-                          {moment(event.startTime).utc().format("h:mma")}
+                          {moment(event.startTime).utcOffset(1).format("h:mma")}
                         </time>
                       </p>
                     </button>

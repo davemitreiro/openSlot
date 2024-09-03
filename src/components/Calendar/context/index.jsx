@@ -2,15 +2,16 @@ import { vi } from "date-fns/locale";
 import moment from "moment";
 import { createContext, useState, useRef, useEffect, useContext } from "react";
 
-import { RoleContext } from "../../../../context/role.context";
 import { AuthContext } from "../../../../context/auth.context";
 
 export const CalendarContext = createContext();
 
 export const CalendarProvider = ({ children }) => {
+  const { API_URL } = useContext(AuthContext);
+
   const { user } = useContext(AuthContext);
-  const { role, setRole } = useContext(RoleContext);
-  //const { id } = useContext(AuthContext);
+
+  const { role, setRole } = useContext(AuthContext);
   const container = useRef(null);
   const containerNav = useRef(null);
   const containerOffset = useRef(null);
@@ -27,6 +28,8 @@ export const CalendarProvider = ({ children }) => {
   const handleToday = () => {
     setShowDate(new Date());
   };
+
+  console.log("user", user);
 
   // Set the current date to the previous view, considering the selected view
   const handlePrevious = () => {
@@ -48,7 +51,7 @@ export const CalendarProvider = ({ children }) => {
     const fetchAppointments = async () => {
       try {
         const response = await fetch(
-          `https://openslot-server.adaptable.app/appointments/${role}/${user.userData._id}/all`
+          `${API_URL}/appointments/${role}/${user.id}/all`
         );
         const appointments = await response.json();
 

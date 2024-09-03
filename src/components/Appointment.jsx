@@ -1,8 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+
+import { AuthContext } from "../../context/auth.context";
 
 const Appointment = () => {
   // State for form fields
+  const { userEmail, role, API_URL } = useContext(AuthContext);
+
   const [title, setTitle] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
@@ -15,6 +20,8 @@ const Appointment = () => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
+  const navigate = useNavigate(); // Initialize useNavigate
+
   // Fetch pros and users on component mount
   useEffect(() => {
     const fetchProsAndUsers = async () => {
@@ -22,9 +29,11 @@ const Appointment = () => {
       setError(null);
       try {
         const [proRes, userRes] = await Promise.all([
-          axios.get("/pros"), // Endpoint to fetch professionals
-          axios.get("/users"), // Endpoint to fetch users
+          axios.get(`${API_URL}/pro`), // Updated endpoint for pros
+          axios.get(`${API_URL}/users`), // Updated endpoint for users
         ]);
+        console.log("Pros Data:", proRes.data);
+        console.log("Users Data:", userRes.data);
         setPros(proRes.data);
         setUsers(userRes.data);
       } catch (err) {
@@ -47,7 +56,7 @@ const Appointment = () => {
       setError("Please fill out all required fields.");
       return;
     }
-
+    console.log("Start time format", startTime);
     // Ensure end time is after start time
     if (new Date(startTime) >= new Date(endTime)) {
       setError("End time must be after start time.");
@@ -57,7 +66,10 @@ const Appointment = () => {
     setSubmitting(true);
     try {
       const appointment = { title, startTime, endTime, notes, pro, user };
-      const response = await axios.post("/appointments", appointment);
+      const response = await axios.post(
+        `${API_URL}/appointments/create`,
+        appointment
+      ); // Updated endpoint for creating an appointment
       alert("Appointment created successfully!");
       console.log("Appointment created:", response.data);
 
@@ -68,6 +80,11 @@ const Appointment = () => {
       setNotes("");
       setPro("");
       setUser("");
+
+      //console.log("user", user);
+
+      // Navigate back to the dashboard after successful submission
+      navigate("/dashboard/"); // Replace '/dashboard' with the correct route if necessary
     } catch (err) {
       setError("Failed to create appointment. Please try again.");
       console.error(err);
@@ -76,8 +93,10 @@ const Appointment = () => {
     }
   };
 
+  console.log("userEmail", userEmail);
+
   return (
-    <div>
+    <div style={{ marginTop: "100px" }}>
       <h2>Create Appointment</h2>
       {error && <p className="error">{error}</p>}
 
@@ -132,11 +151,16 @@ const Appointment = () => {
               required
             >
               <option value="">Select a professional</option>
-              {pros.map((p) => (
-                <option key={p._id} value={p._id}>
-                  {p.name}
-                </option>
-              ))}
+
+              {role === "pro" ? (
+                <option value={userEmail?.id}>{userEmail?.email}</option>
+              ) : (
+                pros.map((p) => (
+                  <option key={p._id} value={p._id}>
+                    {p.email}
+                  </option>
+                ))
+              )}
             </select>
           </div>
           <div>
@@ -148,11 +172,16 @@ const Appointment = () => {
               required
             >
               <option value="">Select a user</option>
-              {users.map((u) => (
-                <option key={u._id} value={u._id}>
-                  {u.name}
-                </option>
-              ))}
+
+              {role === "user" ? (
+                <option value={userEmail?.id}>{userEmail?.email}</option>
+              ) : (
+                pros.map((u) => (
+                  <option key={u._id} value={u._id}>
+                    {u.email}
+                  </option>
+                ))
+              )}
             </select>
           </div>
           <button type="submit" disabled={submitting}>

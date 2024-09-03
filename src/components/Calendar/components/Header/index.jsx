@@ -8,6 +8,7 @@ import {
   EllipsisHorizontalIcon,
 } from "@heroicons/react/20/solid";
 import { CalendarContext } from "../../context";
+import { useNavigate } from "react-router-dom";
 
 const AVAILABLE_VIEWS = [
   // { label: "Day view", value: "day" },
@@ -19,6 +20,11 @@ const AVAILABLE_VIEWS = [
 export default function Header() {
   const { showDate, handleToday, handlePrevious, handleNext, view, setView } =
     useContext(CalendarContext);
+
+  const navigate = useNavigate();
+  const handleAddEventClick = () => {
+    navigate("/create"); // Navigate to /create when button is clicked
+  };
 
   // use moment to get the year and the month
   const year = moment(showDate).format("YYYY");
@@ -98,8 +104,9 @@ export default function Header() {
           <button
             type="button"
             className="ml-6 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            onClick={handleAddEventClick}
           >
-            Add event
+            Add Appointment
           </button>
         </div>
         <Menu as="div" className="relative ml-6 md:hidden">

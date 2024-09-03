@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-//import "./NotFoundPage.css";
+import notFound from "../../src/assets/404-status-code.png";
 
 export default function NotFoundPage() {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ export default function NotFoundPage() {
   return (
     <div className="">
       <div>
-        {/* <img src={notFoundPic} alt="Not found Page" className="notFoundPic" />*/}
+        <img src={notFound} alt="Not found Page" className="notFoundPic" />
       </div>
       <button onClick={handleNavigate} className="">
         Return to Homepage
