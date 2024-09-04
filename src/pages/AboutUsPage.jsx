@@ -3,7 +3,10 @@ export default function AboutUs() {
   const navigate = useNavigate();
 
   return (
-    <div className="container mx-auto px-4 py-16">
+    <div
+      style={{ marginTop: "200px" }}
+      className="container mx-auto px-4 py-16"
+    >
       {" "}
       {/* Centered container with padding */}
       <h1 className="text-3xl font-bold mb-8 text-center">About Us</h1>{" "}

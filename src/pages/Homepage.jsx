@@ -1,4 +1,4 @@
-import "./Homepage.css";
+import "./HomePage.css";
 import openSlotLogo from "../assets/openSlot.png";
 
 export default function HomePage() {

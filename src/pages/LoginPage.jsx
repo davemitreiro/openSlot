@@ -87,7 +87,9 @@ export default function Login() {
     <div style={{ marginTop: "200px" }} className="container mx-auto mt-20">
       {" "}
       {/* Centered container with top margin */}
-      <h1 className="text-3xl font-bold mb-8">Login</h1>{" "}
+      <h1 className="text-3xl font-bold mb-8 text-center font-courier">
+        Login
+      </h1>{" "}
       {/* Heading with styles */}
       <div className="flex justify-center">
         {" "}
