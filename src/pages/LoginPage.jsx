@@ -11,6 +11,8 @@ export default function Login() {
 
   const navigate = useNavigate();
 
+  console.log(role);
+
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
 
@@ -25,6 +27,7 @@ export default function Login() {
       role: role,
       data: { email, password },
     };
+    console.log("user credentials", userCredentials);
 
     axios
       .post(`${API_URL}/auth/login`, userCredentials)

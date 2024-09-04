@@ -18,6 +18,7 @@ import { RoleContext } from "../context/role.context";
 import { AuthContext, ProtectedRoute } from "../context/auth.context";
 import Appointment from "./components/Appointment";
 import ProfilePage from "./pages/ProfilePage";
+//createUser={SignupPage}
 
 function App() {
   return (
@@ -25,10 +26,7 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<Homepage />} />
-        <Route
-          path="/signup"
-          element={<SignupPage createUser={SignupPage} />}
-        />
+        <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<DashboardPage />} />

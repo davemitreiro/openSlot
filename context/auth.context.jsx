@@ -11,7 +11,7 @@ const API_URL = "http://localhost:5005";
 function AuthProviderWrapper(props) {
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [role, setRole] = useState(null);
+  const [role, setRole] = useState("pro");
 
   const navigate = useNavigate();
 
@@ -36,7 +36,6 @@ function AuthProviderWrapper(props) {
   /* Function that authenticates the user ---> verifies if the token is valid */
   const authenticateUser = () => {
     const storedToken = localStorage.getItem("authToken");
-    console.log("that", role);
 
     if (storedToken) {
       axios
@@ -47,17 +46,19 @@ function AuthProviderWrapper(props) {
         })
         .then((response) => {
           setUser(response.data.userData);
+          console.log(role);
+          console.log("response", response.data.role);
           setRole(response.data.role);
           setIsLoggedIn(true);
         })
         .catch(() => {
           setUser(null);
-          setRole(null);
+          setRole("pro");
           setIsLoggedIn(false);
         });
     } else {
       setUser(null);
-      setRole(null);
+      setRole("pro");
       setIsLoggedIn(false);
     }
   };

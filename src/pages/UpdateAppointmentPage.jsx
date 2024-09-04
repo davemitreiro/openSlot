@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
+import { AuthContext } from "../../context/auth.context";
 
 export default function UpdateAppointment() {
+  const { API_URL } = useContext(AuthContext);
   const { eventId } = useParams();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -20,9 +22,7 @@ export default function UpdateAppointment() {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const response = await axios.get(
-          `https://openslot-server.adaptable.app/appointments/${eventId}`
-        );
+        const response = await axios.get(`${API_URL}/appointments/${eventId}`);
         setFormData({
           title: response.data.title || "",
           startTime: moment(response.data.startTime).format("YYYY-MM-DDTHH:mm"),
@@ -50,18 +50,17 @@ export default function UpdateAppointment() {
     }));
   };
 
+  console.log("eventId", eventId);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(
-        `https://openslot-server.adaptable.app/appointments/${eventId}`,
-        {
-          ...formData,
-          startTime: moment(formData.startTime).toISOString(),
-          endTime: moment(formData.endTime).toISOString(),
-          notes: formData.notes.split("\n"),
-        }
-      );
+      await axios.put(`${API_URL}/appointments/${eventId}`, {
+        ...formData,
+        startTime: moment(formData.startTime).toISOString(),
+        endTime: moment(formData.endTime).toISOString(),
+        notes: formData.notes.split("\n"),
+      });
       navigate(`/details/${eventId}`); // Redirect after successful update
     } catch (error) {
       console.error("Error updating event:", error);
@@ -70,9 +69,7 @@ export default function UpdateAppointment() {
   };
   const handleDelete = async () => {
     try {
-      await axios.delete(
-        `https://openslot-server.adaptable.app/appointments/${eventId}`
-      );
+      await axios.delete(`${API_URL}/appointments/${eventId}`);
       navigate("/dashboard");
     } catch (error) {
       console.error("Error deleting event:", error);

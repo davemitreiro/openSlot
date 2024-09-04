@@ -38,7 +38,7 @@ export default function Signup({ createUser }) {
     axios
       .post(`${API_URL}/auth/signup`, newUser)
       .then(function (response) {
-        createUser(response.data);
+        // createUser(response.data);
         console.log(response);
 
         // Reset the form fields
@@ -47,7 +47,7 @@ export default function Signup({ createUser }) {
         setPassword("");
 
         // Navigate to the home page after successful signup
-        navigate("/");
+        navigate("/login");
       })
       .catch(function (error) {
         console.log(error);

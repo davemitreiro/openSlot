@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function ProfilePage() {
-  const { user, role } = useContext(AuthContext);
-  const [profilePicture, setProfilePicture] = useState(null);
+  const { user, role, API_URL } = useContext(AuthContext);
+  // const [profilePicture, setProfilePicture] = useState(null);
   const [email, setEmail] = useState(user?.email || "");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState(user?.fullname || "");
-  const [imageUrl, setImageUrl] = useState(null); // State for image preview
+  const [name, setName] = useState(user?.fullName || "");
+  // const [imageUrl, setImageUrl] = useState(user?.img || ""); // State for image preview
 
   const navigate = useNavigate();
 
@@ -18,17 +18,20 @@ export default function ProfilePage() {
   const handleCancelClick = () => {
     setIsEditing(false);
     setEmail(user?.email || "");
-    setName(user?.fullname || "");
+    setName(user?.fullName || "");
     setPassword("");
     setProfilePicture(null);
     setImageUrl(null);
   };
 
+  const object = { fullName: name, img: "", email, password };
+  console.log("object", object);
+
   const handleSaveClick = async (e) => {
     e.preventDefault();
     try {
-      const userId = user?._id;
-      const response = await axios.put(`/${role}/${user.id}`, {
+      //const userId = user?._id;
+      const response = await axios.put(`${API_URL}/${role}/${user?.id}`, {
         fullName: name,
         img: profilePicture,
         email,
