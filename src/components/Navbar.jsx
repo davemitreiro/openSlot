@@ -22,8 +22,8 @@ export default function Navbar() {
       </div>
       {/* Navigation Links */}
       <div className="navbar-links">
-        <NavLink to="/features" style={{ fontSize: "22px" }}>
-          Features
+        <NavLink to="/profile" style={{ fontSize: "22px" }}>
+          Home
         </NavLink>
       </div>
       {/* Buttons */}

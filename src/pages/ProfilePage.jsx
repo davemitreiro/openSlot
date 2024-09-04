@@ -1,5 +1,5 @@
 import { AuthContext } from "../../context/auth.context";
-import { useContext, useState } from "react";
+import { useEffect, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -19,40 +19,6 @@ export default function ProfilePage() {
     setIsEditing(false);
   };
 
-  /* const handleSaveClick = async (e) => {
-    e.preventDefault();
-    try {
-      const formData = new FormData();
-      formData.append("fullName", name);
-      formData.append("email", email);
-      formData.append("password", password);
-      if (profilePicture) {
-        formData.append("img", profilePicture);
-      }
-      await axios.put(`${API_URL}/${role}/${user?.id}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`, // Add your token here
-        },
-      });*/
-
-  /* const handleSaveClick = async (e) => {
-    e.preventDefault();
-    try {
-      //const userId = user?._id;
-      const response = await axios.put(`${API_URL}/${role}/${user?.id}`, {
-        fullName: name,
-        img: profilePicture,
-        email,
-        password,
-      });
-      console.log("Profile updated:", response.data);
-      setIsEditing(false);
-    } catch (error) {
-      console.error("Error updating profile:", error);
-    }
-  };*/
-
   /*const handleImageUrlInput = (e) => {
     const imageUrl = e.target.value;
     setProfilePicture(imageUrl);
@@ -71,12 +37,22 @@ export default function ProfilePage() {
         formData.append("img", profilePicture);
       }
 
-      await axios.put(`${API_URL}/${role}/${user?.id}`, formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`, // Add your token here
-        },
-      });
-      // Update state to reflect changes
+      // Make the PUT request to update user data
+      const response = await axios.put(
+        `${API_URL}/${role}/${user?.id}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        }
+      );
+
+      // Update the user state in AuthContext
+      const updatedUser = response.data;
+      setUser(updatedUser); // This will update the user context with the new data
+
+      // Reset the form state and exit edit mode
       setIsEditing(false);
       setPassword("");
       if (profilePicture) {
@@ -96,8 +72,6 @@ export default function ProfilePage() {
     }
   };
 
-  console.log("userid", user.fullName);
-
   return (
     <div className="max-w-3xl mx-auto mt-12 p-6 bg-white shadow-lg rounded-lg">
       <h1 className="text-2xl font-bold text-gray-800 mb-4">
@@ -111,7 +85,10 @@ export default function ProfilePage() {
         />
         <div className="ml-6">
           <h2 className="text-gray-700 text-lg">
-            You have {user?.appointments.length} appointments
+            Glad to have you, {user.fullName}.
+          </h2>
+          <h2 className="text-gray-700 text-lg">
+            You have {user.appointments.length} appointment(s).
           </h2>
         </div>
       </div>
@@ -149,7 +126,7 @@ export default function ProfilePage() {
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-          <div className="mb-4">
+          {/*<div className="mb-4">
             <label className="block text-gray-700 mb-2">Password:</label>
             <input
               type="password"
@@ -166,7 +143,7 @@ export default function ProfilePage() {
               onChange={handleImageUpload}
               className="block w-full text-gray-700"
             />
-          </div>
+          </div>*/}
           {imageUrl && (
             <div className="mb-4">
               <img
