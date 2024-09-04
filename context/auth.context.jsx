@@ -36,6 +36,7 @@ function AuthProviderWrapper(props) {
   /* Function that authenticates the user ---> verifies if the token is valid */
   const authenticateUser = () => {
     const storedToken = localStorage.getItem("authToken");
+    console.log("that", role);
 
     if (storedToken) {
       axios
