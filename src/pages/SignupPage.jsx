@@ -1,12 +1,12 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { RoleContext } from "../../context/role.context";
+import { AuthContext } from "../../context/auth.context";
 
 const API_URL = "https://openslot-server.adaptable.app";
 
 export default function Signup({ createUser }) {
-  const { role, selectRole } = useContext(RoleContext);
+  const { role, selectRole } = useContext(AuthContext);
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -64,7 +64,7 @@ export default function Signup({ createUser }) {
         <form className="add-form" onSubmit={handleSignUp}>
           <div className="add-row">
             <button className="login-role" onClick={handleRoleClick}>
-              {role === "user" ? "Switch to pro" : "Switch to user"}
+              {role === "user" ? "Switch to professional" : "Switch to user"}
             </button>
             <label>User name:</label>
             <input

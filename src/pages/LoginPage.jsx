@@ -59,7 +59,7 @@ export default function Login() {
         <form className="login-form">
           <div className="login-row">
             <button className="login-role" onClick={handleRoleClick}>
-              {role === "user" ? "Switch to pro" : "Switch to user"}
+              {role === "user" ? "Switch to professional" : "Switch to user"}
             </button>
             <label>Email:</label>
             <input type="text" value={email} onChange={handleEmail} />
