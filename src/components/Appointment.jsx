@@ -30,7 +30,7 @@ const Appointment = () => {
       try {
         const [proRes, userRes] = await Promise.all([
           axios.get(`${API_URL}/pro`), // Updated endpoint for pros
-          axios.get(`${API_URL}/users`), // Updated endpoint for users
+          axios.get(`${API_URL}/user`), // Updated endpoint for users
         ]);
 
         setPros(proRes.data);
@@ -44,7 +44,7 @@ const Appointment = () => {
     };
 
     fetchProsAndUsers();
-  }, []);
+  }, [API_URL]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -91,59 +91,85 @@ const Appointment = () => {
   };
 
   return (
-    <div style={{ marginTop: "100px" }}>
-      <h2>Create Appointment</h2>
-      {error && <p className="error">{error}</p>}
+    <div
+      style={{
+        marginTop: "200px",
+        paddingBottom: "80px",
+        maxWidth: "800px",
+        margin: "0 auto",
+        padding: "20px",
+      }}
+    >
+      {/* The marginTop and paddingBottom ensure the content is not covered by the navbar or footer */}
+      <h2 className="text-2xl font-bold text-gray-800 mb-4">
+        Create Appointment
+      </h2>
+      {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
       {loading ? (
-        <p>Loading professionals and users...</p>
+        <p className="text-center">Loading professionals and users...</p>
       ) : (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="title">Title:</label>
+            <label htmlFor="title" className="block text-gray-700 mb-2">
+              Title:
+            </label>
             <input
               type="text"
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div>
-            <label htmlFor="startTime">Start Time:</label>
+            <label htmlFor="startTime" className="block text-gray-700 mb-2">
+              Start Time:
+            </label>
             <input
               type="datetime-local"
               id="startTime"
               value={startTime}
               onChange={(e) => setStartTime(e.target.value)}
               required
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div>
-            <label htmlFor="endTime">End Time:</label>
+            <label htmlFor="endTime" className="block text-gray-700 mb-2">
+              End Time:
+            </label>
             <input
               type="datetime-local"
               id="endTime"
               value={endTime}
               onChange={(e) => setEndTime(e.target.value)}
               required
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div>
-            <label htmlFor="notes">Notes:</label>
+            <label htmlFor="notes" className="block text-gray-700 mb-2">
+              Notes:
+            </label>
             <textarea
               id="notes"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div>
-            <label htmlFor="pro">Professional:</label>
+            <label htmlFor="pro" className="block text-gray-700 mb-2">
+              Professional:
+            </label>
             <select
               id="pro"
               value={pro}
               onChange={(e) => setPro(e.target.value)}
               required
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Select a professional</option>
 
@@ -159,19 +185,22 @@ const Appointment = () => {
             </select>
           </div>
           <div>
-            <label htmlFor="user">User:</label>
+            <label htmlFor="user" className="block text-gray-700 mb-2">
+              User:
+            </label>
             <select
               id="user"
               value={user}
               onChange={(e) => setUser(e.target.value)}
               required
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Select a user</option>
 
               {role === "user" ? (
                 <option value={userEmail?.id}>{userEmail?.email}</option>
               ) : (
-                pros.map((u) => (
+                users.map((u) => (
                   <option key={u._id} value={u._id}>
                     {u.email}
                   </option>
@@ -179,9 +208,22 @@ const Appointment = () => {
               )}
             </select>
           </div>
-          <button type="submit" disabled={submitting}>
-            {submitting ? "Creating..." : "Create Appointment"}
-          </button>
+          <div className="flex space-x-4 mt-4">
+            <button
+              type="submit"
+              disabled={submitting}
+              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200"
+            >
+              {submitting ? "Creating..." : "Create Appointment"}
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate("/dashboard")}
+              className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition duration-200"
+            >
+              Dashboard
+            </button>
+          </div>
         </form>
       )}
     </div>

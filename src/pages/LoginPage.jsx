@@ -51,7 +51,7 @@ export default function Login() {
     e.preventDefault();
     selectRole();
   };
-
+  /*
   return (
     <div style={{ marginTop: "200px" }}>
       <h1 className="page-heading">Login</h1>
@@ -73,6 +73,73 @@ export default function Login() {
             <button type="submit" onClick={handleLogin}>
               Login
             </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}*/
+
+  return (
+    <div style={{ marginTop: "200px" }} className="container mx-auto mt-20">
+      {" "}
+      {/* Centered container with top margin */}
+      <h1 className="text-3xl font-bold mb-8">Login</h1>{" "}
+      {/* Heading with styles */}
+      <div className="flex justify-center">
+        {" "}
+        {/* Center the form */}
+        <form className="w-full max-w-md bg-white shadow-md rounded-lg px-8 py-5">
+          {/* Login role button */}
+          <button
+            className="w-full py-2 text-sm font-medium text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-md"
+            onClick={handleRoleClick}
+          >
+            {role === "user" ? "Switch to pro" : "Switch to user"}
+          </button>
+
+          <div className="mt-6">
+            {" "}
+            {/* Spacing between role button and form fields */}
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="email"
+              >
+                Email:
+              </label>
+              <input
+                type="text"
+                id="email"
+                value={email}
+                onChange={handleEmail}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-400"
+              />
+            </div>
+            <div className="mb-6">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="password"
+              >
+                Password:
+              </label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={handlePassword}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-400"
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <button
+                type="submit"
+                onClick={handleLogin}
+                className="py-2 px-4 text-sm font-medium text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg"
+              >
+                Login
+              </button>
+            </div>
           </div>
         </form>
       </div>
