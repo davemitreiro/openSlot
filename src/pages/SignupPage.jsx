@@ -1,12 +1,12 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { RoleContext } from "../../context/role.context";
+import { AuthContext } from "../../context/auth.context";
 
-const API_URL = "https://openslot-server.adaptable.app";
+//const API_URL = "https://openslot-server.adaptable.app";
 
 export default function Signup({ createUser }) {
-  const { role, selectRole } = useContext(RoleContext);
+  const { role, selectRole, API_URL } = useContext(AuthContext);
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
