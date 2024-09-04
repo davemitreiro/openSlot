@@ -7,8 +7,8 @@ export default function ProfilePage() {
   const { user, setUser, role, API_URL } = useContext(AuthContext);
   const [profilePicture, setProfilePicture] = useState(null);
   const [email, setEmail] = useState(user?.email || "");
-  const [password, setPassword] = useState(user?.password || "");
-  const [name, setName] = useState(user?.fullName || "");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState(user?.fullName);
   const [imageUrl, setImageUrl] = useState(user?.img || ""); // State for image preview
 
   const navigate = useNavigate();
@@ -17,11 +17,6 @@ export default function ProfilePage() {
   const handleEditClick = () => setIsEditing(true);
   const handleCancelClick = () => {
     setIsEditing(false);
-    setEmail(user?.email || "");
-    setName(user?.fullName || "");
-    setPassword("");
-    setProfilePicture(null);
-    setImageUrl(null);
   };
 
   /* const handleSaveClick = async (e) => {
@@ -69,18 +64,21 @@ export default function ProfilePage() {
       const formData = new FormData();
       formData.append("fullName", name);
       formData.append("email", email);
-      formData.append("password", password);
+      if (password.length > 0) {
+        formData.append("password", password);
+      }
       if (profilePicture) {
         formData.append("img", profilePicture);
       }
+
       await axios.put(`${API_URL}/${role}/${user?.id}`, formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("authToken")}`, // Add your token here
         },
       });
       // Update state to reflect changes
       setIsEditing(false);
+      setPassword("");
       if (profilePicture) {
         setImageUrl(URL.createObjectURL(profilePicture)); // Preview updated image
       }
@@ -98,7 +96,7 @@ export default function ProfilePage() {
     }
   };
 
-  console.log("userid", user.id);
+  console.log("userid", user.fullName);
 
   return (
     <div className="max-w-3xl mx-auto mt-12 p-6 bg-white shadow-lg rounded-lg">
