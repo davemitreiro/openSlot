@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function ProfilePage() {
-  const { user, role, API_URL } = useContext(AuthContext);
-  // const [profilePicture, setProfilePicture] = useState(null);
+  const { user, setUser, role, API_URL } = useContext(AuthContext);
+  const [profilePicture, setProfilePicture] = useState(null);
   const [email, setEmail] = useState(user?.email || "");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState(user?.password || "");
   const [name, setName] = useState(user?.fullName || "");
-  // const [imageUrl, setImageUrl] = useState(user?.img || ""); // State for image preview
+  const [imageUrl, setImageUrl] = useState(user?.img || ""); // State for image preview
 
   const navigate = useNavigate();
 
@@ -24,10 +24,24 @@ export default function ProfilePage() {
     setImageUrl(null);
   };
 
-  const object = { fullName: name, img: "", email, password };
-  console.log("object", object);
+  /* const handleSaveClick = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("fullName", name);
+      formData.append("email", email);
+      formData.append("password", password);
+      if (profilePicture) {
+        formData.append("img", profilePicture);
+      }
+      await axios.put(`${API_URL}/${role}/${user?.id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`, // Add your token here
+        },
+      });*/
 
-  const handleSaveClick = async (e) => {
+  /* const handleSaveClick = async (e) => {
     e.preventDefault();
     try {
       //const userId = user?._id;
@@ -42,12 +56,37 @@ export default function ProfilePage() {
     } catch (error) {
       console.error("Error updating profile:", error);
     }
-  };
+  };*/
 
-  const handleImageUrlInput = (e) => {
+  /*const handleImageUrlInput = (e) => {
     const imageUrl = e.target.value;
     setProfilePicture(imageUrl);
     setImageUrl(imageUrl);
+  };*/
+  const handleSaveClick = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("fullName", name);
+      formData.append("email", email);
+      formData.append("password", password);
+      if (profilePicture) {
+        formData.append("img", profilePicture);
+      }
+      await axios.put(`${API_URL}/${role}/${user?.id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`, // Add your token here
+        },
+      });
+      // Update state to reflect changes
+      setIsEditing(false);
+      if (profilePicture) {
+        setImageUrl(URL.createObjectURL(profilePicture)); // Preview updated image
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
   };
 
   const handleImageUpload = (e) => {
@@ -58,6 +97,8 @@ export default function ProfilePage() {
       setImageUrl(imageUrl); // Set the image preview URL
     }
   };
+
+  console.log("userid", user.id);
 
   return (
     <div className="max-w-3xl mx-auto mt-12 p-6 bg-white shadow-lg rounded-lg">

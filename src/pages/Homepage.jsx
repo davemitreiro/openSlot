@@ -1,13 +1,13 @@
-import { Link } from "react-router-dom";
+import "./Homepage.css";
+import openSlotLogo from "../assets/openSlot.png";
 
 export default function HomePage() {
   return (
-    <div className="">
-      <h2 className="">HOMEPAGE</h2>
-      <h2 className="">HOMEPAGE</h2>
-      <h2 className="">HOMEPAGE</h2>
-      <h2 className="">HOMEPAGE</h2>
-      <h2 className="">HOMEPAGE</h2>
+    <div className="main-container">
+      <div className="logo">
+        <img src={openSlotLogo} alt="logo" />
+      </div>
+      <h1 className="motto">Your favorite booking platform</h1>
     </div>
   );
 }

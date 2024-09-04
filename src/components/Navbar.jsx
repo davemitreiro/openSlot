@@ -1,15 +1,12 @@
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import openSlotLogo from "../assets/openSlot.jpg";
+import openSlotLogo from "../assets/openSlot.png";
 import "./Navbar.css";
 import { AuthContext } from "../../context/auth.context";
 import { useContext } from "react";
-
 export default function Navbar() {
   const navigate = useNavigate();
-
   const { isLoggedIn, logOut } = useContext(AuthContext);
-
   return (
     <nav className="navbar">
       {/* Logo */}
@@ -23,16 +20,13 @@ export default function Navbar() {
           ></img>
         </NavLink>
       </div>
-
       {/* Navigation Links */}
       <div className="navbar-links">
-        <NavLink to="/features">Features</NavLink>
-
-        <NavLink to="/pricing">Pricing</NavLink>
+        <NavLink to="/features" style={{ fontSize: "22px" }}>
+          Features
+        </NavLink>
       </div>
-
       {/* Buttons */}
-
       <div className="navbar-buttons">
         {!isLoggedIn && (
           <>

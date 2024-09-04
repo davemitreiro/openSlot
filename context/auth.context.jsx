@@ -86,6 +86,7 @@ function AuthProviderWrapper(props) {
         API_URL,
         role,
         userEmail,
+        setUser,
         selectRole,
         saveUserInfo,
         authenticateUser,
