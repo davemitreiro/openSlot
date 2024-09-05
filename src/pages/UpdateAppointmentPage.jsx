@@ -77,22 +77,27 @@ export default function UpdateAppointment() {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (loading) return <div className="text-center mt-20">Loading...</div>;
+  if (error)
+    return <div className="text-center text-red-500 mt-20">Error: {error}</div>;
 
   return (
-    <div style={{ marginTop: "200px" }} className="p-6">
-      <h1 className="text-2xl font-semibold mb-4">Update Appointment</h1>
+    <div className="max-w-2xl mx-auto mt-20 p-6 bg-white rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">
+        Update Appointment
+      </h2>
+      {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block mb-2">Title:</label>
+          <label className="block text-gray-700 mb-2">Title:</label>
           <input
             type="text"
             name="title"
             value={formData.title}
             onChange={handleChange}
-            className="border border-gray-300 p-2 w-full"
             required
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <div>
@@ -118,27 +123,37 @@ export default function UpdateAppointment() {
           />
         </div>
         <div>
-          <label className="block mb-2">Notes:</label>
+          <label className="block text-gray-700 mb-2">Notes:</label>
           <textarea
             name="notes"
             value={formData.notes}
             onChange={handleChange}
-            className="border border-gray-300 p-2 w-full"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             rows="4"
           />
         </div>
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-        >
-          Update Appointment
-        </button>
-        <button
-          onClick={handleDelete}
-          className="bg-red-500 text-white px-4 py-2 rounded mt-4"
-        >
-          Delete Appointment
-        </button>
+        <div className="flex space-x-4 mt-6">
+          <button
+            type="submit"
+            className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"
+          >
+            Update Appointment
+          </button>
+          <button
+            type="button"
+            onClick={handleDelete}
+            className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-200"
+          >
+            Delete Appointment
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate("/dashboard")}
+            className="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition duration-200"
+          >
+            Dashboard
+          </button>
+        </div>
       </form>
     </div>
   );
