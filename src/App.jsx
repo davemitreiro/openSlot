@@ -18,6 +18,7 @@ import { RoleContext } from "../context/role.context";
 import { AuthContext, ProtectedRoute } from "../context/auth.context";
 import Appointment from "./components/Appointment";
 import ProfilePage from "./pages/ProfilePage";
+import AboutTheProjectPage from "./pages/AboutTheProjectPage";
 
 function App() {
   return (
