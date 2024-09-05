@@ -38,6 +38,7 @@ function App() {
           />
         </Route>
         <Route path="/about" element={<AboutUsPage />} />
+        <Route path="/about-project" element={<AboutTheProjectPage />} />
         <Route path="/*" element={<NotFoundPage />} />
       </Routes>
       <Footer />
