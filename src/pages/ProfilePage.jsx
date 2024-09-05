@@ -11,6 +11,7 @@ export default function ProfilePage() {
   const [name, setName] = useState("");
   const [imageUrl, setImageUrl] = useState(""); // State for image preview
   const [isEditing, setIsEditing] = useState(false);
+  const [appointmentCount, setAppointmentCount] = useState(0); // State for appointment count
 
   const navigate = useNavigate();
 
@@ -23,7 +24,7 @@ export default function ProfilePage() {
     return user;
   };
 
-  // Ensure user object is fully loaded and normalize it
+  // Effect to normalize user data and set state
   useEffect(() => {
     if (user) {
       console.log("User in context:", user); // Debugging user data
@@ -32,6 +33,7 @@ export default function ProfilePage() {
       setEmail(normalizedUser.email || "");
       setName(normalizedUser.fullName || "");
       setImageUrl(normalizedUser.img || "");
+      setAppointmentCount(normalizedUser.appointments?.length || 0); // Update appointment count
     }
   }, [user, setUser]);
 
@@ -88,6 +90,9 @@ export default function ProfilePage() {
       setImageUrl(updatedUser.img);
       setPassword("");
       setIsEditing(false);
+
+      // Update appointment count
+      setAppointmentCount(updatedUser.appointments?.length || 0);
     } catch (error) {
       console.error("Error updating profile:", error);
     }
@@ -121,7 +126,8 @@ export default function ProfilePage() {
             Glad to have you, {user.fullName}.
           </h2>
           <h2 className="text-gray-700 text-lg">
-            You have {user.appointments?.length || 0} appointment(s).
+            You have {appointmentCount} appointment(s).{" "}
+            {/* Use appointmentCount */}
           </h2>
         </div>
       </div>
@@ -157,6 +163,15 @@ export default function ProfilePage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-2">Profile Picture:</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="w-full border rounded-lg py-2 px-3"
             />
           </div>
           {imageUrl && (
