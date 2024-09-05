@@ -1,19 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import moment from "moment";
 import axios from "axios";
+import { AuthContext } from "../../context/auth.context";
 
 const DetailsPage = () => {
   const { eventId } = useParams(); // Extract eventId from URL params
   const navigate = useNavigate();
   const [event, setEvent] = React.useState(null);
+  const { API_URL } = useContext(AuthContext);
 
   React.useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const response = await fetch(
-          `https://openslot-server.adaptable.app/appointments/${eventId}`
-        );
+        const response = await fetch(`${API_URL}/appointments/${eventId}`);
         const data = await response.json();
         setEvent(data);
       } catch (error) {
@@ -32,9 +32,7 @@ const DetailsPage = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(
-        `https://openslot-server.adaptable.app/appointments/${eventId}`
-      );
+      await axios.delete(`${API_URL}/appointments/${eventId}`);
       navigate("/dashboard");
     } catch (error) {
       console.error("Error deleting event:", error);

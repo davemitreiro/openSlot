@@ -18,7 +18,7 @@ import { RoleContext } from "../context/role.context";
 import { AuthContext, ProtectedRoute } from "../context/auth.context";
 import Appointment from "./components/Appointment";
 import ProfilePage from "./pages/ProfilePage";
-//createUser={SignupPage}
+
 
 function App() {
   return (
