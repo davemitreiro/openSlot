@@ -26,6 +26,17 @@ export default function WeekView({ handleEventClick }) {
     return days;
   };
 
+  const getRandomColorClass = () => {
+    const colors = [
+      "bg-red-100",
+      "bg-blue-100",
+      "bg-green-100",
+      "bg-yellow-100",
+      "bg-purple-100",
+    ];
+    return colors[Math.floor(Math.random() * colors.length)];
+  };
+
   // get hours rows for the day, day starts at 12AM and ends at 11PM
   const getHoursRows = () => {
     const startOfDay = moment().startOf("day");
@@ -137,26 +148,26 @@ export default function WeekView({ handleEventClick }) {
               }}
             >
               {showEvents.map((event, index) => {
-                /*   const dayOfWeek = moment(event.startTime).day();
-                // Event start & end, considering that each hour has 12 rows (every 5 minutes)
-
-                const start = moment(event.startTime).utc().hour() * 12;
-                const end = moment(event.endTime).utc().hour() * 12; */
                 const dayOfWeek = moment(event.startTime).utcOffset(1).day();
                 const start = moment(event.startTime).utcOffset(1).hour() * 12;
                 const end = moment(event.endTime).utcOffset(1).hour() * 12;
 
+                // Generate a random color class for each event
+                const backgroundColorClass = getRandomColorClass();
+
                 return (
                   <li
                     key={index}
-                    className={`relative mt-px flex col-start-${dayOfWeek + 1}`}
+                    className={`relative mt-px flex col-start-${
+                      dayOfWeek + 1
+                    } ${backgroundColorClass}`}
                     style={{
                       gridRow: `${start + 2} / span ${end - start}`,
                     }}
                   >
                     <button
                       onClick={() => handleEventClick(event._id)}
-                      className="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-blue-50 p-2 text-xs leading-5 hover:bg-blue-100"
+                      className="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg p-2 text-xs leading-5 hover:bg-blue-100"
                     >
                       <p className="order-1 font-semibold text-blue-700">
                         {event.title}
