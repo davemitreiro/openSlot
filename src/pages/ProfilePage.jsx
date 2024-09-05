@@ -27,7 +27,6 @@ export default function ProfilePage() {
   // Effect to normalize user data and set state
   useEffect(() => {
     if (user) {
-      console.log("User in context:", user); // Debugging user data
       const normalizedUser = normalizeUser(user);
       setUser(normalizedUser); // Update the user in the context with normalized user object
       setEmail(normalizedUser.email || "");
@@ -41,7 +40,6 @@ export default function ProfilePage() {
 
   const handleCancelClick = () => {
     setIsEditing(false);
-    setPassword(""); // Reset the password field
   };
 
   const handleSaveClick = async (e) => {
@@ -63,8 +61,6 @@ export default function ProfilePage() {
       if (profilePicture) {
         formData.append("img", profilePicture);
       }
-
-      console.log("User ID before request:", user?.id);
 
       // Make the PUT request to update user data
       await axios.put(`${API_URL}/${role}/${user.id}`, formData, {
@@ -88,7 +84,7 @@ export default function ProfilePage() {
       setEmail(updatedUser.email);
       setName(updatedUser.fullName);
       setImageUrl(updatedUser.img);
-      setPassword("");
+      setPassword(updatedUser.password);
       setIsEditing(false);
 
       // Update appointment count
@@ -127,7 +123,6 @@ export default function ProfilePage() {
           </h2>
           <h2 className="text-gray-700 text-lg">
             You have {appointmentCount} appointment(s).{" "}
-            {/* Use appointmentCount */}
           </h2>
         </div>
       </div>
@@ -162,6 +157,15 @@ export default function ProfilePage() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-2">Password:</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>

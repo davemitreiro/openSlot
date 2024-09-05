@@ -90,8 +90,6 @@ const Appointment = () => {
     }
   };
 
-  console.log("userEmail", userEmail);
-
   return (
     <div
       style={{

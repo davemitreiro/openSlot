@@ -50,8 +50,6 @@ export default function UpdateAppointment() {
     }));
   };
 
-  console.log("eventId", eventId);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {

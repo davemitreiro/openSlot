@@ -1,4 +1,4 @@
-import { Fragment, useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import moment from "moment";
 import { CalendarContext } from "../../context";
 
@@ -10,21 +10,18 @@ export default function WeekView({ handleEventClick }) {
   const { container, containerNav, containerOffset, showDate, showEvents } =
     useContext(CalendarContext);
 
-  // get week columns considering the current date, week starts on Sunday
-  const getWeekColumns = (date) => {
-    const startOfWeek = moment(date).startOf("week");
-    const endOfWeek = moment(date).endOf("week");
+  const weekColumns = useMemo(() => {
+    const startOfWeek = moment(showDate).startOf("week");
+    return Array.from({ length: 7 }, (_, i) =>
+      startOfWeek.clone().add(i, "days")
+    );
+  }, [showDate]);
 
-    const days = [];
-    let day = startOfWeek;
-
-    while (day <= endOfWeek) {
-      days.push(day.toDate());
-      day = day.clone().add(1, "d");
-    }
-
-    return days;
-  };
+  const hoursRows = useMemo(() => {
+    return Array.from({ length: 24 }, (_, i) =>
+      moment().startOf("day").add(i, "hours")
+    );
+  }, []);
 
   const getRandomColorClass = () => {
     const colors = [
@@ -35,22 +32,6 @@ export default function WeekView({ handleEventClick }) {
       "bg-purple-100",
     ];
     return colors[Math.floor(Math.random() * colors.length)];
-  };
-
-  // get hours rows for the day, day starts at 12AM and ends at 11PM
-  const getHoursRows = () => {
-    const startOfDay = moment().startOf("day");
-    const endOfDay = moment().endOf("day");
-
-    const hours = [];
-    let hour = startOfDay;
-
-    while (hour <= endOfDay) {
-      hours.push(hour.toDate());
-      hour = hour.clone().add(1, "h");
-    }
-
-    return hours;
   };
 
   return (
@@ -67,15 +48,15 @@ export default function WeekView({ handleEventClick }) {
           className="sticky top-0 z-30 flex-none bg-white shadow ring-1 ring-black ring-opacity-5 sm:pr-8"
         >
           <div className="grid grid-cols-7 text-sm leading-6 text-gray-500 sm:hidden">
-            {getWeekColumns(showDate).map((day, index) => (
+            {weekColumns.map((day, index) => (
               <button
                 key={index}
                 type="button"
                 className="flex flex-col items-center pb-3 pt-2"
               >
-                {moment(day).format("ddd")}
+                {day.format("ddd")}
                 <span className="mt-1 flex h-8 w-8 items-center justify-center font-semibold text-gray-900">
-                  {moment(day).format("D")}
+                  {day.format("D")}
                 </span>
               </button>
             ))}
@@ -83,22 +64,22 @@ export default function WeekView({ handleEventClick }) {
 
           <div className="-mr-px hidden grid-cols-7 divide-x divide-gray-100 border-r border-gray-100 text-sm leading-6 text-gray-500 sm:grid">
             <div className="col-end-1 w-14" />
-            {getWeekColumns(showDate).map((day, index) => (
+            {weekColumns.map((day, index) => (
               <div
                 key={index}
                 className="flex items-center justify-center py-3"
               >
                 <span>
-                  {moment(day).format("ddd")}{" "}
+                  {day.format("ddd")}{" "}
                   <span
                     className={classNames(
                       "mt-1 flex h-8 w-8 items-center justify-center font-semibold",
-                      moment(day).isSame(moment(), "day")
+                      day.isSame(moment(), "day")
                         ? "rounded-full bg-indigo-600 text-white"
                         : "text-gray-900"
                     )}
                   >
-                    {moment(day).format("D")}
+                    {day.format("D")}
                   </span>
                 </span>
               </div>
@@ -111,20 +92,18 @@ export default function WeekView({ handleEventClick }) {
             {/* Horizontal lines */}
             <div
               className="col-start-1 col-end-2 row-start-1 grid divide-y divide-gray-100"
-              style={{
-                gridTemplateRows: "repeat(48, minmax(3.5rem, 1fr))",
-              }}
+              style={{ gridTemplateRows: "repeat(48, minmax(1.75rem, 1fr))" }}
             >
               <div ref={containerOffset} className="row-end-1 h-7"></div>
-              {getHoursRows().map((hour, index) => (
-                <Fragment key={index}>
+              {hoursRows.map((hour, index) => (
+                <React.Fragment key={index}>
                   <div>
                     <div className="sticky left-0 z-20 -ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                      {moment(hour).format("ha")}
+                      {hour.format("ha")}
                     </div>
                   </div>
                   <div />
-                </Fragment>
+                </React.Fragment>
               ))}
             </div>
 
@@ -144,15 +123,17 @@ export default function WeekView({ handleEventClick }) {
             <ol
               className="col-start-1 col-end-2 row-start-1 grid grid-cols-1 sm:grid-cols-7 sm:pr-8"
               style={{
-                gridTemplateRows: "1.75rem repeat(288, minmax(0, 1fr)) auto",
+                gridTemplateRows: "1.75rem repeat(48, minmax(0, 1fr)) auto",
               }}
             >
               {showEvents.map((event, index) => {
-                const dayOfWeek = moment(event.startTime).utcOffset(1).day();
-                const start = moment(event.startTime).utcOffset(1).hour() * 12;
-                const end = moment(event.endTime).utcOffset(1).hour() * 12;
-
-                // Generate a random color class for each event
+                const startTime = moment(event.startTime);
+                const endTime = moment(event.endTime);
+                const dayOfWeek = startTime.day();
+                const start =
+                  startTime.hour() * 2 + Math.floor(startTime.minutes() / 30);
+                const end =
+                  endTime.hour() * 2 + Math.ceil(endTime.minutes() / 30);
                 const backgroundColorClass = getRandomColorClass();
 
                 return (
@@ -161,9 +142,7 @@ export default function WeekView({ handleEventClick }) {
                     className={`relative mt-px flex col-start-${
                       dayOfWeek + 1
                     } ${backgroundColorClass}`}
-                    style={{
-                      gridRow: `${start + 2} / span ${end - start}`,
-                    }}
+                    style={{ gridRow: `${start + 2} / span ${end - start}` }}
                   >
                     <button
                       onClick={() => handleEventClick(event._id)}
@@ -174,7 +153,11 @@ export default function WeekView({ handleEventClick }) {
                       </p>
                       <p className="text-blue-500 group-hover:text-blue-700">
                         <time dateTime={event.startTime}>
-                          {moment(event.startTime).utcOffset(1).format("h:mma")}
+                          {startTime.format("h:mm A")}
+                        </time>
+                        {" - "}
+                        <time dateTime={event.endTime}>
+                          {endTime.format("h:mm A")}
                         </time>
                       </p>
                     </button>

@@ -29,8 +29,6 @@ export const CalendarProvider = ({ children }) => {
     setShowDate(new Date());
   };
 
-  console.log("user", user);
-
   // Set the current date to the previous view, considering the selected view
   const handlePrevious = () => {
     if (view === "week") {
