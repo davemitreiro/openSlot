@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 import { AuthContext } from "../../context/auth.context";
+import { CustomDatePicker } from "../components/CustomDatePicker";
 
 export default function UpdateAppointment() {
   const { API_URL } = useContext(AuthContext);
@@ -10,8 +11,8 @@ export default function UpdateAppointment() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
-    startTime: "",
-    endTime: "",
+    startTime: null,
+    endTime: null,
     notes: "",
     pro: "",
     user: "",
@@ -25,8 +26,8 @@ export default function UpdateAppointment() {
         const response = await axios.get(`${API_URL}/appointments/${eventId}`);
         setFormData({
           title: response.data.title || "",
-          startTime: moment(response.data.startTime).format("YYYY-MM-DDTHH:mm"),
-          endTime: moment(response.data.endTime).format("YYYY-MM-DDTHH:mm"),
+          startTime: moment(response.data.startTime).toDate(),
+          endTime: moment(response.data.endTime).toDate(),
           notes: response.data.notes.join("\n") || "",
           pro: response.data.pro || "",
           user: response.data.user || "",
@@ -40,7 +41,7 @@ export default function UpdateAppointment() {
     };
 
     fetchEvent();
-  }, [eventId]);
+  }, [API_URL, eventId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -65,6 +66,7 @@ export default function UpdateAppointment() {
       setError("Failed to update event.");
     }
   };
+
   const handleDelete = async () => {
     try {
       await axios.delete(`${API_URL}/appointments/${eventId}`);
@@ -94,25 +96,25 @@ export default function UpdateAppointment() {
           />
         </div>
         <div>
-          <label className="block mb-2">Start Time:</label>
-          <input
-            type="datetime-local"
-            name="startTime"
-            value={formData.startTime}
-            onChange={handleChange}
-            className="border border-gray-300 p-2 w-full"
-            required
+          <label htmlFor="startTime" className="block text-gray-700 mb-2">
+            Start Time:
+          </label>
+          <CustomDatePicker
+            selected={formData.startTime}
+            onChange={(date) =>
+              setFormData((prev) => ({ ...prev, startTime: date }))
+            }
           />
         </div>
         <div>
-          <label className="block mb-2">End Time:</label>
-          <input
-            type="datetime-local"
-            name="endTime"
-            value={formData.endTime}
-            onChange={handleChange}
-            className="border border-gray-300 p-2 w-full"
-            required
+          <label htmlFor="endTime" className="block text-gray-700 mb-2">
+            End Time:
+          </label>
+          <CustomDatePicker
+            selected={formData.endTime}
+            onChange={(date) =>
+              setFormData((prev) => ({ ...prev, endTime: date }))
+            }
           />
         </div>
         <div>
