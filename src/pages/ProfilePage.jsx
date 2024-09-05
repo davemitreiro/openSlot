@@ -6,26 +6,51 @@ import axios from "axios";
 export default function ProfilePage() {
   const { user, setUser, role, API_URL } = useContext(AuthContext);
   const [profilePicture, setProfilePicture] = useState(null);
-  const [email, setEmail] = useState(user?.email || "");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState(user?.fullName);
-  const [imageUrl, setImageUrl] = useState(user?.img || ""); // State for image preview
+  const [name, setName] = useState("");
+  const [imageUrl, setImageUrl] = useState(""); // State for image preview
+  const [isEditing, setIsEditing] = useState(false);
 
   const navigate = useNavigate();
 
-  const [isEditing, setIsEditing] = useState(false);
-  const handleEditClick = () => setIsEditing(true);
-  const handleCancelClick = () => {
-    setIsEditing(false);
+  // Utility function to normalize user data (removes _id, adds id)
+  const normalizeUser = (user) => {
+    if (user._id) {
+      const { _id, ...rest } = user;
+      return { id: _id, ...rest };
+    }
+    return user;
   };
 
-  /*const handleImageUrlInput = (e) => {
-    const imageUrl = e.target.value;
-    setProfilePicture(imageUrl);
-    setImageUrl(imageUrl);
-  };*/
+  // Ensure user object is fully loaded and normalize it
+  useEffect(() => {
+    if (user) {
+      console.log("User in context:", user); // Debugging user data
+      const normalizedUser = normalizeUser(user);
+      setUser(normalizedUser); // Update the user in the context with normalized user object
+      setEmail(normalizedUser.email || "");
+      setName(normalizedUser.fullName || "");
+      setImageUrl(normalizedUser.img || "");
+    }
+  }, [user, setUser]);
+
+  const handleEditClick = () => setIsEditing(true);
+
+  const handleCancelClick = () => {
+    setIsEditing(false);
+    setPassword(""); // Reset the password field
+  };
+
   const handleSaveClick = async (e) => {
     e.preventDefault();
+
+    // Check if user ID is available before proceeding
+    if (!user?.id) {
+      console.error("User ID is undefined. Cannot update profile.");
+      return;
+    }
+
     try {
       const formData = new FormData();
       formData.append("fullName", name);
@@ -36,28 +61,33 @@ export default function ProfilePage() {
       if (profilePicture) {
         formData.append("img", profilePicture);
       }
+
       console.log("User ID before request:", user?.id);
+
       // Make the PUT request to update user data
-      const response = await axios.put(
-        `${API_URL}/${role}/${user?.id}`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-        }
-      );
+      await axios.put(`${API_URL}/${role}/${user.id}`, formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
 
-      // Update the user state in AuthContext
-      /*  const updatedUser = response.data;
-      setUser(updatedUser); */ // This will update the user context with the new data
+      // Immediately make a GET request to fetch updated user data
+      const response = await axios.get(`${API_URL}/${role}/${user.id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
 
-      // Reset the form state and exit edit mode
-      setIsEditing(false);
+      // Normalize the user data before updating the context
+      const updatedUser = normalizeUser(response.data);
+      setUser(updatedUser);
+
+      // Reset the form fields with updated data
+      setEmail(updatedUser.email);
+      setName(updatedUser.fullName);
+      setImageUrl(updatedUser.img);
       setPassword("");
-      if (profilePicture) {
-        setImageUrl(URL.createObjectURL(profilePicture)); // Preview updated image
-      }
+      setIsEditing(false);
     } catch (error) {
       console.error("Error updating profile:", error);
     }
@@ -72,14 +102,17 @@ export default function ProfilePage() {
     }
   };
 
+  // Check if user.id is available before rendering the form
+  if (!user || !user.id) {
+    return <p>Loading user data...</p>;
+  }
+
   return (
     <div className="max-w-3xl mx-auto mt-12 p-6 bg-white shadow-lg rounded-lg">
-      <h1 className="text-2xl font-bold text-gray-800 mb-4">
-        {user?.fullname}
-      </h1>
+      <h1 className="text-2xl font-bold text-gray-800 mb-4">{user.fullName}</h1>
       <div className="flex items-center mb-6">
         <img
-          src={user?.img || "/default-avatar.png"} // Fallback to a default avatar if user image is missing
+          src={imageUrl || "/default-avatar.png"} // Fallback to a default avatar if user image is missing
           alt="Profile"
           className="w-24 h-24 rounded-full object-cover border-2 border-gray-300"
         />
@@ -88,7 +121,7 @@ export default function ProfilePage() {
             Glad to have you, {user.fullName}.
           </h2>
           <h2 className="text-gray-700 text-lg">
-            You have {user.appointments.length} appointment(s).
+            You have {user.appointments?.length || 0} appointment(s).
           </h2>
         </div>
       </div>
@@ -126,24 +159,6 @@ export default function ProfilePage() {
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-          {/*<div className="mb-4">
-            <label className="block text-gray-700 mb-2">Password:</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-2">Profile Picture:</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-              className="block w-full text-gray-700"
-            />
-          </div>*/}
           {imageUrl && (
             <div className="mb-4">
               <img
