@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import WeekView from "./WeekView";
+import MonthView from "./MonthView";
 import { CalendarContext } from "../../context";
 
 export default function Body() {
@@ -13,5 +14,7 @@ export default function Body() {
 
   if (view === "week") {
     return <WeekView handleEventClick={handleEventClick} />;
+  } else if (view === "month") {
+    return <MonthView handleEventClick={handleEventClick} />;
   }
 }
