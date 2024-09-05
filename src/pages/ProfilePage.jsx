@@ -36,7 +36,7 @@ export default function ProfilePage() {
       if (profilePicture) {
         formData.append("img", profilePicture);
       }
-
+      console.log("User ID before request:", user?.id);
       // Make the PUT request to update user data
       const response = await axios.put(
         `${API_URL}/${role}/${user?.id}`,
@@ -49,8 +49,8 @@ export default function ProfilePage() {
       );
 
       // Update the user state in AuthContext
-      const updatedUser = response.data;
-      setUser(updatedUser); // This will update the user context with the new data
+      /*  const updatedUser = response.data;
+      setUser(updatedUser); */ // This will update the user context with the new data
 
       // Reset the form state and exit edit mode
       setIsEditing(false);
