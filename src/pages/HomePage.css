@@ -7,12 +7,40 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
+  scale: 60%;
 }
 
 .motto {
   margin-top: 40px;
   font-size: 40px;
+  font-weight: bold;
   font-family: "Courier New", Courier, monospace;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  scale: 70%;
+  margin-right: 50px;
+}
+
+@keyframes animate-text {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-text {
+  animation: animate-text 2s ease-in-out;
+}
+
+.video-container {
+  width: 350px; /* Adjust the width as needed */
+  height: 280px; /* Adjust the height as needed */
+  object-fit: cover;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: 280px; /* Align to the right */
 }

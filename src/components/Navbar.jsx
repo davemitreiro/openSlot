@@ -4,6 +4,8 @@ import openSlotLogo from "../assets/openSlot.png";
 import "./Navbar.css";
 import { AuthContext } from "../../context/auth.context";
 import { useContext } from "react";
+import Home from "../assets/home.png";
+
 export default function Navbar() {
   const navigate = useNavigate();
   const { isLoggedIn, logOut } = useContext(AuthContext);
@@ -23,7 +25,7 @@ export default function Navbar() {
       {/* Navigation Links */}
       <div className="navbar-links">
         <NavLink to="/profile" style={{ fontSize: "22px" }}>
-          Home
+          <img className="home" src={Home} alt="Home Icon" />
         </NavLink>
       </div>
       {/* Buttons */}
