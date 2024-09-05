@@ -6,8 +6,7 @@ import axios from "axios";
 const AuthContext = React.createContext();
 
 const API_URL =
-  "https://open-slot-8u0hwncch-davids-projects-5a814204.vercel.app" ||
-  "http://localhost:5005";
+  "https://openslot-server.adaptable.app" || "http://localhost:5005";
 
 function AuthProviderWrapper(props) {
   const [user, setUser] = useState(null);
