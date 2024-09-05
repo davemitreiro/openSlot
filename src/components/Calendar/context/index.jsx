@@ -29,6 +29,25 @@ export const CalendarProvider = ({ children }) => {
     setShowDate(new Date());
   };
 
+  const handlePrevious = () => {
+    if (view === "week") {
+      const previousWeek = moment(showDate).subtract(1, "week").toDate();
+      setShowDate(previousWeek);
+    } else if (view === "month") {
+      const previousMonth = moment(showDate).subtract(1, "month").toDate();
+      setShowDate(previousMonth);
+    }
+  };
+  const handleNext = () => {
+    if (view === "week") {
+      const nextWeek = moment(showDate).add(1, "week").toDate();
+      setShowDate(nextWeek);
+    } else if (view === "month") {
+      const nextMonth = moment(showDate).add(1, "month").toDate();
+      setShowDate(nextMonth);
+    }
+  };
+  /*
   // Set the current date to the previous view, considering the selected view
   const handlePrevious = () => {
     if (view === "week") {
@@ -43,7 +62,7 @@ export const CalendarProvider = ({ children }) => {
       const nextWeek = moment(showDate).add(1, "week").toDate();
       setShowDate(nextWeek);
     }
-  };
+  };*/
 
   useEffect(() => {
     const fetchAppointments = async () => {
