@@ -50,4 +50,5 @@
 .home {
   height: 100px; /* Match the navbar's height */
   width: 100%;
+  scale: 50%;
 }
