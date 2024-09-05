@@ -45,3 +45,7 @@
   background-color: var(--navbar-button-hover-bg-color);
   color: var(--navbar-button-hover-text-color);
 }
+
+.home {
+  scale: 5%;
+}
