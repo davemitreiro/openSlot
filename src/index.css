@@ -3,6 +3,6 @@
 @tailwind utilities;
 
 body {
-  padding-top: 70px; /* Equal to the height of your navbar */
+  padding-top: 50px; /* Equal to the height of your navbar */
   padding-bottom: 80px; /* Matches the footer height */
 }
