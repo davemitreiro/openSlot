@@ -21,6 +21,7 @@
   z-index: 1000;
 }
 .navbar-links a {
+  display: inline-block;
   color: var(--navbar-text-color);
   margin: 0 1px;
   text-decoration: none;

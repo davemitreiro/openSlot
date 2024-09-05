@@ -23,7 +23,7 @@ export default function Navbar() {
         </NavLink>
       </div>
       {/* Navigation Links */}
-      <div className="navbar-links" style={{ height: "10px" }}>
+      <div className="navbar-links" >
         <NavLink to="/profile" style={{ fontSize: "22px" }}>
           <img className="home" src={Home} alt="Home Icon" />
         </NavLink>
