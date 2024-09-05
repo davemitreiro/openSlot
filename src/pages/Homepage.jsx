@@ -7,7 +7,7 @@ export default function HomePage() {
       <div className="logo">
         <img src={openSlotLogo} alt="logo" />
       </div>
-      <h1 className="motto">Your favorite booking platform</h1>
+      <h1 className="motto">Your reliable scheduling companion</h1>
     </div>
   );
 }

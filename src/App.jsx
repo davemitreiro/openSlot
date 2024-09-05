@@ -19,7 +19,6 @@ import { AuthContext, ProtectedRoute } from "../context/auth.context";
 import Appointment from "./components/Appointment";
 import ProfilePage from "./pages/ProfilePage";
 
-
 function App() {
   return (
     <>
@@ -39,7 +38,7 @@ function App() {
           />
         </Route>
         <Route path="/about" element={<AboutUsPage />} />
-        <Route path="*" element={<NotFoundPage />} />
+        <Route path="/*" element={<NotFoundPage />} />
       </Routes>
       <Footer />
     </>
