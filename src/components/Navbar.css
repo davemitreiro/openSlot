@@ -48,7 +48,7 @@
 }
 
 .home {
-  height: 100px; /* Match the navbar's height */
-  width: 100%;
-  scale: 50%;
+  object-fit: contain;
+  height: 40px; /* Match the navbar's height */
+  width: 120px;
 }
